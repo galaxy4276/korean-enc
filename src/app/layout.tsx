@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import FloatingCTA from "@/components/FloatingCTA";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 
 export const metadata: Metadata = {
   title: "코리아이앤씨 | 병원 클린룸(BCR) 전문 시공",
@@ -28,7 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="bg-white antialiased">{children}</body>
+      <body className="bg-white antialiased">
+        <Header />
+        <main className="pt-18">{children}</main>
+        <Footer />
+        <FloatingCTA />
+        <StickyMobileCTA />
+      </body>
     </html>
   );
 }
