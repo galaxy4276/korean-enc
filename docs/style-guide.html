@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korea I&C — Style Guide (33design.space Reference)</title>
+<style>
+  @font-face {
+    font-family: "Wanted Sans";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("../public/fonts/WantedSansVariable.woff2") format("woff2");
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Wanted Sans", -apple-system, BlinkMacSystemFont, sans-serif; color: #212529; line-height: 1.7; background: #fff; }
+
+  .cover {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b4d8e 100%);
+    color: #fff; padding: 80px 60px; min-height: 40vh; display: flex; flex-direction: column; justify-content: center;
+  }
+  .cover .badge { display: inline-block; border: 1px solid rgba(236,183,47,0.4); padding: 5px 16px; border-radius: 20px; font-size: 12px; letter-spacing: 2px; color: #ecb72f; margin-bottom: 24px; }
+  .cover h1 { font-size: 38px; font-weight: 900; line-height: 1.3; letter-spacing: -0.04em; }
+  .cover h1 span { color: #ecb72f; }
+  .cover .desc { font-size: 16px; color: rgba(255,255,255,0.6); margin-top: 12px; max-width: 600px; }
+
+  .section { max-width: 1000px; margin: 0 auto; padding: 60px 40px; }
+  .section-label { font-size: 11px; letter-spacing: 3px; color: #ecb72f; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+  .section-title { font-size: 26px; font-weight: 800; color: #0d1b2a; margin-bottom: 8px; letter-spacing: -0.04em; }
+  .section-desc { font-size: 14px; color: #6c757d; margin-bottom: 36px; }
+
+  .divider-section { text-align: center; padding: 40px; background: #f8f9fa; border-top: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; }
+  .divider-section h2 { font-size: 22px; color: #0d1b2a; font-weight: 700; letter-spacing: -0.03em; }
+  .divider-section p { font-size: 13px; color: #6c757d; margin-top: 6px; }
+
+  /* Color Swatches */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin: 20px 0; }
+  .color-card { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .color-swatch { height: 80px; }
+  .color-info { padding: 12px; font-size: 12px; background: #fff; }
+  .color-info strong { display: block; font-size: 13px; margin-bottom: 2px; }
+  .color-info code { background: #f8f9fa; padding: 1px 6px; border-radius: 4px; font-size: 11px; }
+
+  /* Typography Specimens */
+  .type-specimen { margin: 20px 0; padding: 24px; border: 1px solid #dee2e6; border-radius: 12px; }
+  .type-specimen .meta { font-size: 11px; color: #adadad; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .type-sample-h1 { font-size: 56px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.24; color: #0d1b2a; }
+  .type-sample-h2 { font-size: 42px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.3; color: #0d1b2a; }
+  .type-sample-h3 { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.3; color: #0d1b2a; }
+  .type-sample-subtitle { font-size: 18px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.67; color: #6c757d; }
+  .type-sample-body { font-size: 16px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.7; color: #212529; }
+  .type-sample-caption { font-size: 14px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.5; color: #6c757d; }
+
+  /* Spacing Visual */
+  .spacing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .spacing-item { display: flex; align-items: center; gap: 12px; }
+  .spacing-bar { background: #1b4d8e; border-radius: 4px; height: 12px; }
+  .spacing-label { font-size: 12px; color: #6c757d; white-space: nowrap; }
+
+  /* Button Specimens */
+  .btn-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0; align-items: center; }
+  .btn-primary { background: #1b4d8e; color: #fff; padding: 12px 32px; border-radius: 30px; font-size: 16px; font-weight: 700; border: 2px solid #1b4d8e; cursor: pointer; letter-spacing: -0.02em; text-decoration: none; display: inline-block; }
+  .btn-outline { background: transparent; color: #1b4d8e; padding: 12px 32px; border-radius: 30px; font-size: 16px; font-weight: 700; border: 2px solid #1b4d8e; cursor: pointer; letter-spacing: -0.02em; text-decoration: none; display: inline-block; }
+  .btn-dark { background: #343a40; color: #fff; padding: 12px 32px; border-radius: 30px; font-size: 16px; font-weight: 800; border: 2px solid #343a40; cursor: pointer; letter-spacing: -0.02em; text-decoration: none; display: inline-block; }
+  .btn-cta-float { background: #343a40; color: #fff; padding: 10px 24px; border-radius: 30px; font-size: 14px; font-weight: 800; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+  /* Card Specimens */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0; }
+  .demo-card { overflow: hidden; }
+  .demo-card-img { height: 200px; background: linear-gradient(135deg, #1b4d8e, #2a6cb8); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.3); font-size: 14px; }
+  .demo-card-body { padding: 20px 0; }
+  .demo-card-dash { width: 48px; height: 4px; background: #ecb72f; margin-bottom: 12px; }
+  .demo-card-title { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; color: #0d1b2a; }
+  .demo-card-subtitle { font-size: 14px; color: #6c757d; margin-left: 60px; margin-top: 4px; }
+
+  /* Service Card */
+  .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
+  .service-card { padding: 24px; border: 1px solid #dee2e6; border-radius: 0; text-align: center; transition: all 0.15s ease-in-out; }
+  .service-card:hover { background: #f8f9fa; border-color: #1b4d8e; }
+  .service-icon { width: 48px; height: 48px; background: #e8f0fe; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+  .service-icon svg { width: 24px; height: 24px; fill: #1b4d8e; }
+  .service-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
+  .service-card p { font-size: 12px; color: #6c757d; line-height: 1.5; }
+
+  /* Motion */
+  .motion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .motion-card { border: 1px solid #dee2e6; border-radius: 12px; padding: 20px; text-align: center; }
+  .motion-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .motion-card p { font-size: 12px; color: #6c757d; }
+  .motion-card code { background: #f8f9fa; padding: 2px 8px; border-radius: 4px; font-size: 11px; display: block; margin-top: 8px; }
+
+  /* Trust Counter Demo */
+  .counter-row { display: flex; justify-content: center; gap: 60px; padding: 40px; background: #f8f9fa; border-radius: 12px; margin: 20px 0; }
+  .counter-item { text-align: center; }
+  .counter-num { font-size: 48px; font-weight: 900; color: #1b4d8e; letter-spacing: -0.04em; line-height: 1; }
+  .counter-label { font-size: 14px; color: #6c757d; margin-top: 8px; }
+
+  /* Nav Demo */
+  .nav-demo { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: #fff; border: 1px solid #dee2e6; border-radius: 12px; margin: 20px 0; }
+  .nav-logo { font-size: 18px; font-weight: 800; color: #0d1b2a; letter-spacing: -0.03em; }
+  .nav-links { display: flex; gap: 24px; font-size: 14px; color: #6c757d; font-weight: 500; }
+  .nav-links a { color: #6c757d; text-decoration: none; }
+  .nav-links a.active { color: #0d1b2a; font-weight: 700; }
+
+  /* Hero Demo */
+  .hero-demo { position: relative; height: 400px; background: linear-gradient(135deg, #0d1b2a 0%, #1b4d8e 100%); border-radius: 12px; display: flex; align-items: center; padding: 60px; margin: 20px 0; overflow: hidden; }
+  .hero-demo::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); }
+  .hero-content { position: relative; z-index: 1; color: #fff; }
+  .hero-content h1 { font-size: 42px; font-weight: 900; letter-spacing: -0.04em; line-height: 1.24; margin-bottom: 12px; }
+  .hero-content p { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 24px; max-width: 500px; }
+
+  /* Footer Demo */
+  .footer-demo { background: #000; color: #fff; padding: 40px; border-radius: 12px; margin: 20px 0; display: flex; justify-content: space-between; }
+  .footer-demo .footer-left h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+  .footer-demo .footer-left p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; }
+  .footer-demo .footer-right { text-align: right; font-size: 13px; color: rgba(255,255,255,0.5); }
+  .footer-demo .footer-right a { color: #fff; text-decoration: underline; }
+
+  .note { background: #fffde7; border-left: 4px solid #ecb72f; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 13px; color: #555; }
+  .ref-tag { display: inline-block; background: rgba(236,183,47,0.15); color: #92400e; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-bottom: 16px; }
+  .footer { text-align: center; padding: 30px; font-size: 11px; color: #adadad; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="badge">STYLE GUIDE v1.0 — 33DESIGN.SPACE REFERENCE</div>
+  <h1>코리아이앤씨<br><span>Design System</span></h1>
+  <p class="desc">33design.space 스타일 기반 / Wanted Sans / Luxury Minimalism<br>Next.js + Tailwind CSS + Motion 프로젝트용 디자인 참조 문서</p>
+</div>
+
+<!-- ═══ COLORS ═══ -->
+<div class="divider-section">
+  <h2>1. Color Palette</h2>
+  <p>33design.space의 블랙+골드를 코리아이앤씨의 네이비+골드로 변환</p>
+</div>
+
+<div class="section">
+  <div class="section-label">Brand Colors</div>
+  <div class="color-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background:#1b4d8e;"></div>
+      <div class="color-info"><strong>Primary</strong><code>#1b4d8e</code><br>헤딩, 버튼, 링크</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#0d1b2a;"></div>
+      <div class="color-info"><strong>Primary Dark</strong><code>#0d1b2a</code><br>다크 섹션, 푸터</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#2a6cb8;"></div>
+      <div class="color-info"><strong>Primary Light</strong><code>#2a6cb8</code><br>그라디언트, 호버</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#ecb72f;"></div>
+      <div class="color-info"><strong>Accent (Gold)</strong><code>#ecb72f</code><br>장식, 하이라이트</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:30px;">Neutral Scale</div>
+  <div class="color-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background:#212529;"></div>
+      <div class="color-info"><strong>Neutral 900</strong><code>#212529</code><br>본문 텍스트</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#343a40;"></div>
+      <div class="color-info"><strong>Neutral 800</strong><code>#343a40</code><br>CTA 버튼</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#6c757d;"></div>
+      <div class="color-info"><strong>Neutral 600</strong><code>#6c757d</code><br>보조 텍스트</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#adadad;"></div>
+      <div class="color-info"><strong>Neutral 400</strong><code>#adadad</code><br>비활성 상태</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#dee2e6;"></div>
+      <div class="color-info"><strong>Neutral 200</strong><code>#dee2e6</code><br>구분선</div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:#f8f9fa;"></div>
+      <div class="color-info"><strong>Neutral 100</strong><code>#f8f9fa</code><br>밝은 배경</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:30px;">Overlays</div>
+  <div class="color-grid">
+    <div class="color-card">
+      <div class="color-swatch" style="background:rgba(0,0,0,0.7);"></div>
+      <div class="color-info"><strong>Image Hover</strong><code>rgba(0,0,0,0.7)</code></div>
+    </div>
+    <div class="color-card">
+      <div class="color-swatch" style="background:rgba(13,27,42,0.7);"></div>
+      <div class="color-info"><strong>Hero Overlay</strong><code>rgba(13,27,42,0.7)</code></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TYPOGRAPHY ═══ -->
+<div class="divider-section">
+  <h2>2. Typography</h2>
+  <p>Wanted Sans Variable — Weight 100~900 / 타이트한 letter-spacing</p>
+</div>
+
+<div class="section">
+  <div class="ref-tag">33design: Montserrat + Noto Sans KR / Korea I&C: Wanted Sans</div>
+
+  <div class="type-specimen">
+    <div class="meta">H1 — Hero Title / 56px / Weight 900 / LS -0.04em</div>
+    <div class="type-sample-h1">20년 경험이 만드는<br>완벽한 수술실</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="meta">H2 — Section Title / 42px / Weight 700 / LS -0.04em</div>
+    <div class="type-sample-h2">병원 클린룸 전문 시공</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="meta">H3 — Card Title / 28px / Weight 700 / LS -0.03em</div>
+    <div class="type-sample-h3">수술실 BCR 클린룸</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="meta">Subtitle / 18px / Weight 500 / LS -0.02em</div>
+    <div class="type-sample-subtitle">병원 클린룸(BCR) 전문 설계 및 시공 — 수술실, 중환자실, 격리실</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="meta">Body / 16px / Weight 400 / LS -0.02em / LH 1.7</div>
+    <div class="type-sample-body">코리아이앤씨는 20년 이상의 현장 경험을 바탕으로 병원 내 수술실, 격리실, 중환자실 등 클린룸 환경을 전문적으로 설계하고 시공합니다. 정직한 견적과 끝까지 책임지는 시공으로 고객의 신뢰를 쌓아가고 있습니다.</div>
+  </div>
+
+  <div class="type-specimen">
+    <div class="meta">Caption / 14px / Weight 400 / LS -0.01em</div>
+    <div class="type-sample-caption">규모: 120m2 / 기간: 3개월 / 시공 범위: 클린룸 전체 시공</div>
+  </div>
+</div>
+
+<!-- ═══ SPACING ═══ -->
+<div class="divider-section">
+  <h2>3. Spacing</h2>
+  <p>극도로 넉넉한 여백 — 33design.space의 핵심 특성</p>
+</div>
+
+<div class="section">
+  <div class="spacing-grid">
+    <div class="spacing-item"><div class="spacing-bar" style="width:200px;"></div><div class="spacing-label">200px — 섹션 간격 (Desktop)</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:140px;"></div><div class="spacing-label">140px — 콘텐츠 블록 간격</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:120px;"></div><div class="spacing-label">120px — 페이지 상단 마진</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:80px;"></div><div class="spacing-label">80px — 섹션 간격 (Mobile)</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:60px;"></div><div class="spacing-label">60px — 이미지 하단 마진</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:56px;"></div><div class="spacing-label">56px — 서브타이틀 하단</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:30px;"></div><div class="spacing-label">30px — 기본 요소 간격</div></div>
+    <div class="spacing-item"><div class="spacing-bar" style="width:16px;"></div><div class="spacing-label">16px — 최소 간격</div></div>
+  </div>
+
+  <div class="note"><strong>핵심 원칙:</strong> 여백이 "너무 많다" 싶을 정도로 넉넉하게. 콘텐츠 밀도보다 공간의 여유가 프리미엄 인상을 만든다. 33design.space 참조.</div>
+</div>
+
+<!-- ═══ COMPONENTS ═══ -->
+<div class="divider-section">
+  <h2>4. Components</h2>
+  <p>Navigation, Buttons, Cards, Counter, Hero, Footer</p>
+</div>
+
+<div class="section">
+  <!-- Nav -->
+  <div class="section-label">Navigation Bar</div>
+  <div class="nav-demo">
+    <div class="nav-logo">Korea I&C</div>
+    <div class="nav-links">
+      <a class="active">회사소개</a>
+      <a>서비스</a>
+      <a>시공사례</a>
+      <a>문의하기</a>
+    </div>
+    <button class="btn-cta-float" style="font-size:13px; padding:8px 20px;">전화상담</button>
+  </div>
+
+  <!-- Buttons -->
+  <div class="section-label" style="margin-top:40px;">Buttons</div>
+  <div class="btn-row">
+    <a class="btn-primary">무료 상담 신청</a>
+    <a class="btn-outline">시공사례 보기</a>
+    <a class="btn-dark">전화상담</a>
+    <button class="btn-cta-float">문의하기</button>
+  </div>
+  <div class="note">버튼은 pill shape(border-radius: 30px)만 사용. 다른 요소에는 border-radius 없음 (이미지, 카드 등). 33design 원칙.</div>
+
+  <!-- Hero -->
+  <div class="section-label" style="margin-top:40px;">Hero Section</div>
+  <div class="hero-demo">
+    <div class="hero-content">
+      <h1>20년 경험이 만드는<br>완벽한 수술실</h1>
+      <p>병원 클린룸(BCR) 전문 설계 및 시공 — 수술실, 중환자실, 격리실</p>
+      <div class="btn-row">
+        <a class="btn-primary">무료 상담 신청</a>
+        <a class="btn-outline" style="color:#fff; border-color:#fff;">시공사례 보기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Counter -->
+  <div class="section-label" style="margin-top:40px;">Trust Counter</div>
+  <div class="counter-row">
+    <div class="counter-item">
+      <div class="counter-num">20+</div>
+      <div class="counter-label">현장 경험 (년)</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num">100+</div>
+      <div class="counter-label">누적 시공 건수</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num">100%</div>
+      <div class="counter-label">책임 준공</div>
+    </div>
+  </div>
+
+  <!-- Service Cards -->
+  <div class="section-label" style="margin-top:40px;">Service Cards</div>
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg></div>
+      <h4>수술실</h4>
+      <p>BCR 등급 클린룸<br>무균 환경 구현</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+      <h4>격리실</h4>
+      <p>음압/양압 시스템<br>감염 차단 설계</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M10.5 13H8v-3h2.5V7.5h3V10H16v3h-2.5v2.5h-3V13zM7 2v2H3.01L3 22h18V4h-4V2H7zm12 18H5V6h2v2h10V6h2v14z"/></svg></div>
+      <h4>중환자실</h4>
+      <p>환기 최적화<br>위생 기준 충족</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></div>
+      <h4>시설 유지보수</h4>
+      <p>정기 점검<br>사후 관리</p>
+    </div>
+  </div>
+
+  <!-- Portfolio Card -->
+  <div class="section-label" style="margin-top:40px;">Portfolio Card (33design style)</div>
+  <div class="card-grid">
+    <div class="demo-card">
+      <div class="demo-card-img">[ 완공 수술실 이미지 ]</div>
+      <div class="demo-card-body">
+        <div class="demo-card-dash"></div>
+        <div class="demo-card-title">OO대학병원 수술실</div>
+        <div class="demo-card-subtitle">규모: 120m2 / 기간: 3개월</div>
+      </div>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-img" style="background: linear-gradient(135deg, #0d1b2a, #1b4d8e);">[ Before-After 슬라이더 ]</div>
+      <div class="demo-card-body">
+        <div class="demo-card-dash"></div>
+        <div class="demo-card-title">XX종합병원 격리실</div>
+        <div class="demo-card-subtitle">규모: 80m2 / 기간: 2개월</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="section-label" style="margin-top:40px;">Footer</div>
+  <div class="footer-demo">
+    <div class="footer-left">
+      <h3>Korea I&C</h3>
+      <p>경기도 화성시 정남면 보통리 78-1<br>대표: 남기태 | 사업자번호: 830-01-03365<br>koreaencgo@nate.com</p>
+    </div>
+    <div class="footer-right">
+      <a>회사소개</a> | <a>서비스</a> | <a>시공사례</a> | <a>문의하기</a><br><br>
+      &copy; 2023 Korea I&C. All rights reserved.
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MOTION ═══ -->
+<div class="divider-section">
+  <h2>5. Motion</h2>
+  <p>motion (framer-motion) 라이브러리 기반 애니메이션 패턴</p>
+</div>
+
+<div class="section">
+  <div class="motion-grid">
+    <div class="motion-card">
+      <h4>fadeInUp</h4>
+      <p>섹션/카드 스크롤 등장</p>
+      <code>y: 30 -> 0, opacity: 0 -> 1, duration: 0.8s</code>
+    </div>
+    <div class="motion-card">
+      <h4>stagger</h4>
+      <p>카드 순차 등장</p>
+      <code>staggerChildren: 0.1s</code>
+    </div>
+    <div class="motion-card">
+      <h4>countUp</h4>
+      <p>신뢰 수치 카운팅</p>
+      <code>0 -> target, duration: 2s</code>
+    </div>
+    <div class="motion-card">
+      <h4>slideIn</h4>
+      <p>메뉴 오버레이</p>
+      <code>translateY: -100vh -> 0, 0.3s ease</code>
+    </div>
+    <div class="motion-card">
+      <h4>crossFade</h4>
+      <p>Before/After 전환</p>
+      <code>opacity crossfade, 0.3s</code>
+    </div>
+    <div class="motion-card">
+      <h4>overlay</h4>
+      <p>포트폴리오 호버</p>
+      <code>opacity: 0 -> 1, 0.1s</code>
+    </div>
+  </div>
+
+  <div class="note"><strong>모션 원칙:</strong> "과하지 않되 세련되게." 모든 등장 애니메이션은 IntersectionObserver(뷰포트 진입)로 트리거. 33design.space는 WOW.js + fadeInUp 1.5s를 사용하지만, 우리는 motion 라이브러리로 구현.</div>
+</div>
+
+<!-- ═══ LAYOUT ═══ -->
+<div class="divider-section">
+  <h2>6. Layout & Breakpoints</h2>
+  <p>모바일 퍼스트 / 1080px (md) / 1440px (lg)</p>
+</div>
+
+<div class="section">
+  <table style="width:100%; border-collapse:collapse; font-size:14px; margin:20px 0;">
+    <tr>
+      <th style="background:#0d1b2a; color:#fff; padding:12px 16px; text-align:left;">Viewport</th>
+      <th style="background:#0d1b2a; color:#fff; padding:12px 16px; text-align:left;">Container</th>
+      <th style="background:#0d1b2a; color:#fff; padding:12px 16px; text-align:left;">Side Padding</th>
+    </tr>
+    <tr>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;"><strong>Mobile</strong> (&lt; 1080px)</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;">78.67% / max 295px</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;">auto margin</td>
+    </tr>
+    <tr style="background:#f9fafb;">
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;"><strong>Tablet</strong> (1080 - 1440px)</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;">calc(100% - 180px)</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;">90px</td>
+    </tr>
+    <tr>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;"><strong>Desktop</strong> (&gt;= 1440px)</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;">calc(100% - 360px)</td>
+      <td style="padding:12px 16px; border-bottom:1px solid #dee2e6;">180px</td>
+    </tr>
+  </table>
+</div>
+
+<div class="footer">
+  Korea I&C Design System v1.0 — Based on 33design.space analysis<br>
+  Font: Wanted Sans Variable / Stack: Next.js + Tailwind CSS + Motion
+</div>
+
+</body>
+</html>

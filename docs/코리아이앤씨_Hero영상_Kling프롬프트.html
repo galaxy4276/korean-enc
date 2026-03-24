@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>코리아이앤씨 Hero 영상 — Kling 프롬프트 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: #0a0a0f; color: #e0e0e0; line-height: 1.75; }
+
+  .cover {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 40%, #16213e 100%);
+    padding: 80px 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .cover .badge {
+    display: inline-block;
+    border: 1px solid rgba(142,202,230,0.3);
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #8ecae6;
+    margin-bottom: 24px;
+  }
+  .cover h1 { font-size: 38px; font-weight: 900; line-height: 1.3; color: #fff; }
+  .cover h1 span { color: #8ecae6; }
+  .cover .desc { font-size: 16px; color: rgba(255,255,255,0.5); margin-top: 12px; max-width: 600px; }
+
+  .section { max-width: 960px; margin: 0 auto; padding: 60px 40px; }
+  .section-label {
+    font-size: 11px; letter-spacing: 3px; color: #8ecae6;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .section-title { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  .section-desc { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 36px; }
+
+  /* Scene Card */
+  .scene-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .scene-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 28px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .scene-num {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #1b4d8e, #2a6cb8);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: #fff;
+    flex-shrink: 0;
+  }
+  .scene-meta h3 { font-size: 17px; font-weight: 700; color: #fff; }
+  .scene-meta .timing {
+    font-size: 12px; color: #8ecae6;
+    margin-top: 2px;
+  }
+  .scene-body { padding: 24px 28px; }
+
+  /* Prompt Box */
+  .prompt-box {
+    background: rgba(142,202,230,0.06);
+    border: 1px solid rgba(142,202,230,0.15);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+    position: relative;
+  }
+  .prompt-box::before {
+    content: 'KLING PROMPT';
+    position: absolute;
+    top: -10px; left: 16px;
+    background: #0a0a0f;
+    padding: 0 8px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #8ecae6;
+  }
+  .prompt-box .en {
+    font-size: 14px;
+    color: #c8e6f5;
+    line-height: 1.9;
+    font-family: 'Courier New', monospace;
+  }
+  .prompt-box .ko-note {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Settings */
+  .settings-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .setting-chip {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+  }
+  .setting-chip strong { color: #8ecae6; }
+
+  /* Description */
+  .scene-desc-text {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 12px;
+  }
+
+  /* Divider */
+  .divider-section {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.01);
+  }
+  .divider-section h2 { font-size: 22px; color: #fff; font-weight: 700; }
+  .divider-section p { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 6px; }
+
+  /* Tip box */
+  .tip-box {
+    background: rgba(251,192,45,0.06);
+    border: 1px solid rgba(251,192,45,0.15);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+  .tip-box strong { color: #fbc02d; }
+
+  /* Storyboard visual */
+  .storyboard-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 30px 0;
+  }
+  .sb-frame {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .sb-frame .frame-visual {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 8px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .sb-frame .frame-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8ecae6;
+    letter-spacing: 1px;
+  }
+  .sb-frame .frame-time {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 2px;
+  }
+  .sb-frame .frame-desc {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 6px;
+  }
+
+  /* Negative prompt */
+  .neg-prompt {
+    background: rgba(231,76,60,0.06);
+    border: 1px solid rgba(231,76,60,0.15);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 16px 0;
+  }
+  .neg-prompt::before {
+    content: '⛔ NEGATIVE PROMPT (공통)';
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #e74c3c;
+    margin-bottom: 10px;
+  }
+  .neg-prompt p {
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    color: rgba(231,76,60,0.7);
+  }
+
+  /* Edit note */
+  .edit-section {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .edit-section h4 {
+    font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px;
+  }
+  .edit-section li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+
+  .footer { text-align: center; padding: 30px; font-size: 11px; color: rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<div class="cover">
+  <div class="badge">HERO VIDEO — KLING PROMPT GUIDE</div>
+  <h1>코리아이앤씨<br><span>Hero 영상 제작 가이드</span></h1>
+  <p class="desc">Text-to-Video (Kling) · 4장면 · 약 20초 · 신뢰감 있는 다큐멘터리 톤<br>각 장면 5초씩 생성 후 편집으로 연결</p>
+</div>
+
+<!-- ═══ CONCEPT ═══ -->
+<div class="section">
+  <div class="section-label">Overall Concept</div>
+  <div class="section-title">영상 컨셉</div>
+  <div class="section-desc">다큐멘터리 톤으로 "현장의 진정성"과 "완성의 완벽함"을 대비</div>
+
+  <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+    <p style="font-size: 15px; color: rgba(255,255,255,0.7); margin-bottom: 16px;">
+      <strong style="color:#fff;">내러티브 구조:</strong> "혼돈(공사 현장) → 질서(체계적 시공) → 완성(깨끗한 수술실) → 신뢰(사람)"
+    </p>
+    <p style="font-size: 13px; color: rgba(255,255,255,0.45);">
+      시공 현장의 거친 질감에서 시작해, 정밀한 작업 과정을 거쳐, 완벽하게 완성된 수술실로 전환되는 흐름입니다.
+      마지막에 "사람(전문가)"을 보여줌으로써 기술 뒤에 있는 신뢰를 전달합니다.
+      전체적으로 자연광 + 현장 조명의 리얼한 라이팅을 유지하되, 촬영 구도와 카메라 움직임으로 세련됨을 더합니다.
+    </p>
+  </div>
+
+  <!-- Storyboard Strip -->
+  <div class="storyboard-strip">
+    <div class="sb-frame">
+      <div class="frame-visual">🏗️</div>
+      <div class="frame-label">SCENE 1</div>
+      <div class="frame-time">0:00 — 0:05</div>
+      <div class="frame-desc">공사 현장<br>철거·준비</div>
+    </div>
+    <div class="sb-frame">
+      <div class="frame-visual">⚙️</div>
+      <div class="frame-label">SCENE 2</div>
+      <div class="frame-time">0:05 — 0:10</div>
+      <div class="frame-desc">정밀 시공<br>클린룸 설치</div>
+    </div>
+    <div class="sb-frame">
+      <div class="frame-visual">✨</div>
+      <div class="frame-label">SCENE 3</div>
+      <div class="frame-time">0:10 — 0:15</div>
+      <div class="frame-desc">완성된 수술실<br>리빌 순간</div>
+    </div>
+    <div class="sb-frame">
+      <div class="frame-visual">👷</div>
+      <div class="frame-label">SCENE 4</div>
+      <div class="frame-time">0:15 — 0:20</div>
+      <div class="frame-desc">전문가의 시선<br>마무리 점검</div>
+    </div>
+  </div>
+
+  <!-- 공통 설정 -->
+  <div style="margin: 30px 0;">
+    <h3 style="font-size: 16px; color: #fff; margin-bottom: 14px;">Kling 공통 세팅</h3>
+    <div class="settings-row">
+      <div class="setting-chip"><strong>Mode:</strong> Text-to-Video</div>
+      <div class="setting-chip"><strong>Duration:</strong> 5s (장면당)</div>
+      <div class="setting-chip"><strong>Quality:</strong> High / Professional</div>
+      <div class="setting-chip"><strong>Aspect:</strong> 16:9</div>
+      <div class="setting-chip"><strong>Camera:</strong> Slow, Cinematic</div>
+    </div>
+  </div>
+
+  <div class="neg-prompt">
+    <p>cartoon, anime, 3D render, CGI, unrealistic, blurry, low quality, watermark, text overlay, bright neon colors, fantasy, surreal, distorted faces, extra fingers, deformed hands, fisheye lens, overexposed, underexposed, stock footage watermark, fast motion, shaky camera</p>
+  </div>
+</div>
+
+<!-- ═══ SCENE 1 ═══ -->
+<div class="divider-section">
+  <h2>장면별 프롬프트</h2>
+  <p>각 장면을 개별 생성한 뒤 편집 소프트웨어에서 연결합니다</p>
+</div>
+
+<div class="section">
+
+  <!-- SCENE 1 -->
+  <div class="scene-card">
+    <div class="scene-header">
+      <div class="scene-num">01</div>
+      <div class="scene-meta">
+        <h3>공사 현장 — 시작의 순간</h3>
+        <div class="timing">0:00 — 0:05 · 도입부 · 시선 끌기</div>
+      </div>
+    </div>
+    <div class="scene-body">
+      <p class="scene-desc-text">
+        <strong>의도:</strong> 병원 내부 리모델링 현장의 리얼한 모습. "이 공간이 어떻게 변하는지" 궁금증 유발.
+        카메라가 어두운 복도에서 천천히 공사 현장 쪽으로 전진하며, 자연스러운 현장 분위기를 담는다.
+      </p>
+
+      <div class="prompt-box">
+        <p class="en">Cinematic documentary shot, slow dolly forward through a dimly lit hospital corridor leading into a construction zone. Concrete floors partially demolished, exposed ceiling infrastructure, construction dust particles floating in natural light beams coming through temporary plastic sheeting. Industrial work lights casting warm pools of light. Muted earth tones, raw concrete textures. Shot on anamorphic lens, shallow depth of field, 24fps cinematic motion. Professional construction site, realistic lighting, photorealistic.</p>
+        <p class="ko-note">💬 핵심: 돌리 포워드(전진) 카메라 무브 + 먼지 입자가 빛에 반사 + 공사 현장 텍스처의 거친 느낌. "이 공간이 곧 변한다"는 기대감을 시각적으로 전달.</p>
+      </div>
+
+      <div class="settings-row">
+        <div class="setting-chip"><strong>Camera:</strong> Slow Dolly Forward</div>
+        <div class="setting-chip"><strong>Lighting:</strong> Natural + Industrial</div>
+        <div class="setting-chip"><strong>Mood:</strong> Raw, Anticipation</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>💡 Kling 팁:</strong> "cinematic documentary"와 "shot on anamorphic lens"를 함께 쓰면 영화적 질감이 나옵니다. 먼지 입자(dust particles in light beams)는 현장감을 극대화하는 디테일입니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 2 -->
+  <div class="scene-card">
+    <div class="scene-header">
+      <div class="scene-num">02</div>
+      <div class="scene-meta">
+        <h3>정밀 시공 — 전문가의 손길</h3>
+        <div class="timing">0:05 — 0:10 · 전개부 · 전문성 전달</div>
+      </div>
+    </div>
+    <div class="scene-body">
+      <p class="scene-desc-text">
+        <strong>의도:</strong> 클린룸 벽체·패널 시공 과정의 정밀함을 보여주는 장면. 안전장비를 갖춘 작업자가 체계적으로 작업하는 모습.
+        카메라는 작업자의 손/도구를 클로즈업한 뒤, 천천히 뒤로 빠지며 전체 공간을 보여준다.
+      </p>
+
+      <div class="prompt-box">
+        <p class="en">Cinematic documentary shot, a professional construction worker in clean white safety gear and hard hat, precisely installing sterile white wall panels in a hospital cleanroom. Close-up of gloved hands aligning panel joints with precision tools, then slow camera pull-back revealing the half-completed cleanroom space. Bright LED construction lighting, clean white and pale blue surfaces emerging. Meticulous craftsmanship details visible. Shallow depth of field transitioning to wide angle. Photorealistic, professional industrial documentary style, 24fps.</p>
+        <p class="ko-note">💬 핵심: 클로즈업 → 풀백(pull-back) 카메라 움직임으로 "디테일 → 전체"를 한 장면에. 흰색 안전복 + 흰색 패널의 클린한 대비가 "전문성"을 시각화.</p>
+      </div>
+
+      <div class="settings-row">
+        <div class="setting-chip"><strong>Camera:</strong> Close-up → Pull-back</div>
+        <div class="setting-chip"><strong>Lighting:</strong> Bright LED, Clean</div>
+        <div class="setting-chip"><strong>Mood:</strong> Precision, Expertise</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>💡 Kling 팁:</strong> 사람의 손과 도구를 강조하면 AI가 얼굴 생성의 부담을 줄이고 품질이 올라갑니다. "gloved hands"로 손 디테일 이슈도 우회할 수 있습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 3 -->
+  <div class="scene-card">
+    <div class="scene-header">
+      <div class="scene-num">03</div>
+      <div class="scene-meta">
+        <h3>완성된 수술실 — 리빌(Reveal)</h3>
+        <div class="timing">0:10 — 0:15 · 클라이맥스 · 감동 전달</div>
+      </div>
+    </div>
+    <div class="scene-body">
+      <p class="scene-desc-text">
+        <strong>의도:</strong> 영상의 하이라이트. 완벽하게 완성된 수술실이 처음 공개되는 순간.
+        문이 열리면서 깨끗한 수술실 전경이 드러나고, 수술등이 켜지는 연출.
+      </p>
+
+      <div class="prompt-box">
+        <p class="en">Cinematic reveal shot, double doors slowly opening to unveil a pristine completed hospital operating room. Camera moves forward through the doorway into the space. Immaculate white and pale green walls, seamless cleanroom panels, gleaming surgical lights turning on overhead, reflecting off polished epoxy floors. State-of-the-art medical gas panels on walls, ceiling-mounted surgical lamp illuminating the surgical table below. Volumetric light streaming through the space. Sense of awe and perfection. Ultra clean environment, no dust. Photorealistic, cinematic documentary, anamorphic lens flare, 24fps slow motion.</p>
+        <p class="ko-note">💬 핵심: 이 장면이 영상의 핵심. "문이 열리며 공간이 드러나는" 리빌 구조가 감동을 만듭니다. 수술등이 켜지는 순간 + 렌즈 플레어가 "완성의 빛"을 상징. PPTX의 실제 수술실 사진(파란/초록 톤)을 참고하여 색감을 맞춥니다.</p>
+      </div>
+
+      <div class="settings-row">
+        <div class="setting-chip"><strong>Camera:</strong> Forward Through Doorway</div>
+        <div class="setting-chip"><strong>Lighting:</strong> Surgical Lights + Volumetric</div>
+        <div class="setting-chip"><strong>Mood:</strong> Awe, Perfection, Reveal</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>💡 Kling 팁:</strong> "doors slowly opening"은 Kling이 잘 생성하는 동작 중 하나입니다. "volumetric light"과 "anamorphic lens flare"를 함께 사용하면 영화적 감동이 커집니다. 벽 색상을 파란색 또는 초록색으로 바꾸고 싶으면 "pale green"을 "soft blue" 또는 "mint green"으로 교체하세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 4 -->
+  <div class="scene-card">
+    <div class="scene-header">
+      <div class="scene-num">04</div>
+      <div class="scene-meta">
+        <h3>전문가의 마지막 점검</h3>
+        <div class="timing">0:15 — 0:20 · 마무리 · 신뢰 각인</div>
+      </div>
+    </div>
+    <div class="scene-body">
+      <p class="scene-desc-text">
+        <strong>의도:</strong> "사람이 만든다"는 메시지. 완성된 수술실에서 전문가가 최종 점검을 하며
+        만족스러운 표정으로 고개를 끄덕이는 장면. 여기에 웹사이트 카피(텍스트 오버레이)가 올라간다.
+      </p>
+
+      <div class="prompt-box">
+        <p class="en">Cinematic documentary shot, a professional Korean male engineer in his 50s wearing a clean navy blue uniform and hard hat, standing in a completed hospital operating room. He is carefully inspecting the wall panel joints and ceiling-mounted surgical lamp, running his hand along the seamless surface, then looking toward camera with a confident, subtle nod and composed expression. Warm backlight from surgical lamps creating rim lighting on his silhouette. Shallow depth of field, background softly blurred showing the pristine cleanroom. Photorealistic, editorial portrait quality, 24fps, natural skin tones.</p>
+        <p class="ko-note">💬 핵심: 마지막 장면은 "사람"으로 마무리하여 기업의 얼굴을 보여줌. 림 라이팅(역광 실루엣)이 인물을 돋보이게 하고, 카메라를 향한 시선이 시청자와 연결. 이 장면 위에 "20년 경험이 만드는 완벽한 수술실" 카피가 fade-in.</p>
+      </div>
+
+      <div class="settings-row">
+        <div class="setting-chip"><strong>Camera:</strong> Medium Shot, Slight Tilt Up</div>
+        <div class="setting-chip"><strong>Lighting:</strong> Backlight Rim + Warm</div>
+        <div class="setting-chip"><strong>Mood:</strong> Trust, Confidence, Human</div>
+      </div>
+
+      <div class="tip-box">
+        <strong>💡 Kling 팁:</strong> 인물 장면은 생성 품질 편차가 클 수 있습니다. "subtle nod"처럼 작은 동작만 지정하고, "looking toward camera"로 시선을 고정하면 안정적입니다. 만족스럽지 않으면 같은 프롬프트로 3~4회 재생성하여 가장 자연스러운 결과를 선택하세요. 얼굴이 불안정하면 역광 실루엣을 더 강조하여 얼굴 노출을 줄이는 것도 방법입니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ EDITING ═══ -->
+<div class="divider-section">
+  <h2>편집 가이드</h2>
+  <p>4개 장면을 하나의 영상으로 연결</p>
+</div>
+
+<div class="section">
+
+  <div class="edit-section">
+    <h4>🎬 편집 흐름</h4>
+    <ul style="list-style: none; padding: 0;">
+      <li>
+        <strong style="color:#8ecae6;">전환 효과:</strong>
+        장면 1→2: 크로스 디졸브 (0.5초) — 현장에서 시공으로 자연스럽게<br>
+        장면 2→3: 짧은 화이트 페이드 (0.3초) — "빛"으로 전환하며 리빌 강조<br>
+        장면 3→4: 크로스 디졸브 (0.5초) — 공간에서 사람으로
+      </li>
+      <li style="margin-top: 16px;">
+        <strong style="color:#8ecae6;">사운드 디자인:</strong>
+        장면 1: 잔잔한 앰비언트 + 현장 환경음(경미한 공사 소리)<br>
+        장면 2: 피아노 or 스트링 시작 — 감성적 BGM 진입<br>
+        장면 3: BGM 볼륨 상승 + 서지컬 라이트 "윙" 사운드 이펙트<br>
+        장면 4: BGM 마무리 + 잔향. 추천 BGM 분위기: "Corporate Inspiring" 또는 "Emotional Documentary"
+      </li>
+      <li style="margin-top: 16px;">
+        <strong style="color:#8ecae6;">텍스트 오버레이:</strong>
+        장면 3 후반 (0:13~): 작게 "Since 2003 Experience" fade-in (선택)<br>
+        장면 4 (0:17~): 메인 카피 "20년 경험이 만드는 완벽한 수술실" fade-in<br>
+        장면 4 마지막 (0:19~): 로고 + "코리아이앤씨" fade-in
+      </li>
+      <li style="margin-top: 16px;">
+        <strong style="color:#8ecae6;">컬러 그레이딩:</strong>
+        전체적으로 약간 디새추레이트(채도 낮춤) + 블루 틸트(차가운 톤) 유지. 장면 3의 리빌 순간만 채도를 살짝 올려 "완성의 생동감" 표현. 하이라이트에 약간의 웜톤을 더해 지나치게 차갑지 않게.
+      </li>
+    </ul>
+  </div>
+
+  <div class="edit-section">
+    <h4>🔄 대안 프롬프트 (품질 불만족 시)</h4>
+    <ul style="list-style: none; padding: 0;">
+      <li>
+        <strong style="color:#8ecae6;">장면 1 대안 — 항공뷰:</strong><br>
+        <span style="font-family: 'Courier New', monospace; font-size: 12px; color: rgba(255,255,255,0.5);">"Aerial top-down view slowly descending into a hospital building under renovation, seeing through partially removed ceiling panels into the construction zone below. Documentary style, muted colors, cinematic."</span>
+      </li>
+      <li style="margin-top: 16px;">
+        <strong style="color:#8ecae6;">장면 3 대안 — 타임랩스 느낌:</strong><br>
+        <span style="font-family: 'Courier New', monospace; font-size: 12px; color: rgba(255,255,255,0.5);">"Hyperlapse style transformation of an empty concrete room morphing into a completed modern hospital operating room. White cleanroom panels appearing, surgical lights installing from ceiling, floor becoming polished. Cinematic time-lapse, dramatic lighting change from construction yellow to clean clinical white."</span>
+      </li>
+      <li style="margin-top: 16px;">
+        <strong style="color:#8ecae6;">장면 4 대안 — 인물 없이:</strong><br>
+        <span style="font-family: 'Courier New', monospace; font-size: 12px; color: rgba(255,255,255,0.5);">"Slow cinematic orbit shot around a completed hospital operating room, surgical lamp in center frame. Camera orbits 180 degrees revealing every detail — seamless wall panels, medical gas outlets, pristine floor. Golden hour quality light. Sense of pride and completion. Photorealistic, anamorphic."</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="edit-section">
+    <h4>⚠️ 주의사항 & 품질 관리</h4>
+    <ul style="list-style: none; padding: 0;">
+      <li><strong style="color:#e74c3c;">반복 생성:</strong> 각 장면당 최소 3~5회 생성하여 가장 자연스러운 결과물을 선택하세요. AI 영상은 생성할 때마다 결과가 다릅니다.</li>
+      <li style="margin-top: 10px;"><strong style="color:#e74c3c;">손/얼굴 체크:</strong> 인물이 포함된 장면(Scene 2, 4)은 손가락 개수, 얼굴 왜곡 여부를 반드시 확인하세요. 문제가 있으면 클로즈업을 피하거나 실루엣으로 대체.</li>
+      <li style="margin-top: 10px;"><strong style="color:#e74c3c;">일관성:</strong> 4장면의 수술실 색상 톤(파란/초록/흰)이 통일되도록 프롬프트의 색상 키워드를 일치시키세요.</li>
+      <li style="margin-top: 10px;"><strong style="color:#e74c3c;">웹 최적화:</strong> 최종 영상은 H.264 코덱, 1080p, 8~12Mbps 비트레이트로 인코딩. 웹 로딩을 위해 파일 크기 15MB 이내 권장. poster 이미지(첫 프레임)도 별도 추출.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  코리아이앤씨 Hero 영상 Kling 프롬프트 가이드 v1.0
+</div>
+
+</body>
+</html>
