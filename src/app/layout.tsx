@@ -16,6 +16,14 @@ export const metadata: Metadata = {
     "병원 수술실 공사",
     "코리아이앤씨",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "코리아이앤씨 | 병원 클린룸(BCR) 전문 시공",
     description:
@@ -34,7 +42,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className="bg-white antialiased">
         <Header />
-        <main className="pt-18">{children}</main>
+        <main>{children}</main>
         <Footer />
         <FloatingCTA />
         <StickyMobileCTA />

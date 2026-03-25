@@ -10,7 +10,10 @@ import Link from "next/link";
 function PageHero() {
   return (
     <section className="relative bg-primary-dark py-28 md:py-40">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-dark/80 to-primary-dark" />
+      <div className="absolute inset-0">
+        <img src="/images/complete-green-monitor.png" alt="" className="h-full w-full object-cover" />
+      </div>
+      <div className="absolute inset-0 bg-primary-dark/75" />
       <Container className="relative z-10">
         <ScrollReveal>
           <p className="text-sm md:text-base font-medium tracking-[-0.02em] text-accent mb-4 md:mb-6">
@@ -34,93 +37,25 @@ const bcrCards = [
     title: "생물학적 입자 제어",
     description:
       "세균, 바이러스 등 생체 입자를 HEPA 필터를 통해 효과적으로 제거하여 청정 환경을 조성합니다.",
-    icon: (
-      <svg
-        className="w-10 h-10 text-primary"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 3c-1.2 0-2.4.6-3 1.5C8.4 3.6 7.2 3 6 3c-2.2 0-4 1.8-4 4 0 4 6 9 10 11 4-2 10-7 10-11 0-2.2-1.8-4-4-4-1.2 0-2.4.6-3 1.5-.6-.9-1.8-1.5-3-1.5z"
-        />
-        <circle cx="12" cy="10" r="2" />
-        <path d="M12 8v-2M12 12v2M10 10H8M16 10h-2" />
-      </svg>
-    ),
+    image: "/images/bcr-biological.png",
   },
   {
     title: "비생체 입자 제어",
     description:
       "먼지, 미립자 등 비생체 오염물질을 체계적으로 제어하여 청정 환경을 안정적으로 유지합니다.",
-    icon: (
-      <svg
-        className="w-10 h-10 text-primary"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"
-        />
-      </svg>
-    ),
+    image: "/images/bcr-particle.png",
   },
   {
     title: "살균/멸균 환경",
     description:
       "UV 살균, 화학적 멸균 등 다양한 방법으로 무균 상태를 보장하여 감염 위험을 원천 차단합니다.",
-    icon: (
-      <svg
-        className="w-10 h-10 text-primary"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5.573 13.927a2.25 2.25 0 00-.659 1.591v.712a2.25 2.25 0 002.25 2.25h9.672a2.25 2.25 0 002.25-2.25v-.712a2.25 2.25 0 00-.659-1.591l-3.518-3.518a2.25 2.25 0 01-.659-1.591V3.104"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M7.5 3h9M12 9.75v2.5"
-        />
-      </svg>
-    ),
+    image: "/images/bcr-sterilization.png",
   },
   {
     title: "공기 청정도 관리",
     description:
       "양압/음압 제어와 공기 순환 시스템 운영으로 실내 공기 청정도를 항시 최적 상태로 관리합니다.",
-    icon: (
-      <svg
-        className="w-10 h-10 text-primary"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={1.5}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3 8.25c1.5-1 3.5-1.5 5.25-.75M15.75 3.75c1.25 1 2.25 2.5 2.5 4.25"
-        />
-      </svg>
-    ),
+    image: "/images/bcr-airquality.png",
   },
 ];
 
@@ -145,14 +80,16 @@ function BcrSection() {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {bcrCards.map((card) => (
             <StaggerItem key={card.title}>
-              <div className="bg-neutral-50 p-8 md:p-10 h-full">
-                <div className="mb-5">{card.icon}</div>
-                <h3 className="text-lg md:text-xl font-bold tracking-[-0.03em] text-neutral-900 mb-3">
-                  {card.title}
-                </h3>
-                <p className="text-sm md:text-base leading-[1.7] tracking-[-0.02em] text-neutral-600">
-                  {card.description}
-                </p>
+              <div className="bg-neutral-50 p-8 md:p-10 h-full flex gap-6 items-start">
+                <img src={card.image} alt={card.title} className="w-16 h-16 md:w-20 md:h-20 shrink-0 object-contain" />
+                <div>
+                  <h3 className="text-lg md:text-xl font-bold tracking-[-0.03em] text-neutral-900 mb-3">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm md:text-base leading-[1.7] tracking-[-0.02em] text-neutral-600">
+                    {card.description}
+                  </p>
+                </div>
               </div>
             </StaggerItem>
           ))}

@@ -22,7 +22,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = "hidden";
@@ -37,17 +36,30 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-300 ease-in-out ${
-          scrolled ? "h-14 shadow-md" : "h-18"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+          scrolled
+            ? "h-14 bg-white shadow-md"
+            : "h-18 bg-transparent"
         }`}
       >
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-5 md:px-[90px] lg:px-[180px]">
           {/* Logo */}
           <a
             href="/"
-            className="text-lg font-bold tracking-[-0.04em] text-primary-dark"
+            className={`flex items-center text-lg font-bold tracking-[-0.04em] transition-all duration-300 ${
+              scrolled ? "text-primary-dark" : "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
+            }`}
           >
-            Korea I&C
+            <img
+              src="/logo-icon.png"
+              alt=""
+              width={28}
+              height={28}
+              className={`block transition-all duration-300 ${
+                scrolled ? "" : "brightness-0 invert"
+              }`}
+            />
+            코리아이앤씨
           </a>
 
           {/* Desktop nav */}
@@ -56,14 +68,22 @@ export default function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium tracking-[-0.02em] text-neutral-900 transition-colors duration-150 hover:text-primary"
+                className={`text-sm font-medium tracking-[-0.02em] transition-all duration-300 ${
+                  scrolled
+                    ? "text-neutral-900 hover:text-primary"
+                    : "text-white hover:text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
+                }`}
               >
                 {item.label}
               </a>
             ))}
             <a
               href="tel:010-8115-0500"
-              className="rounded-full bg-primary px-5 py-2 text-sm font-bold tracking-[-0.02em] text-white transition-all duration-150 ease-in-out hover:bg-primary-light"
+              className={`rounded-full px-5 py-2 text-sm font-bold tracking-[-0.02em] transition-all duration-300 ease-in-out ${
+                scrolled
+                  ? "bg-primary text-white hover:bg-primary-light"
+                  : "bg-white/20 text-white border border-white/40 hover:bg-white/30 drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
+              }`}
             >
               전화상담
             </a>
@@ -77,19 +97,19 @@ export default function Header() {
             aria-label={menuOpen ? "메뉴 닫기" : "메뉴 열기"}
           >
             <span
-              className={`block h-0.5 w-6 bg-neutral-900 transition-all duration-300 ${
-                menuOpen ? "translate-y-2 rotate-45" : ""
-              }`}
+              className={`block h-0.5 w-6 transition-all duration-300 ${
+                scrolled ? "bg-neutral-900" : "bg-white"
+              } ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
             />
             <span
-              className={`block h-0.5 w-6 bg-neutral-900 transition-all duration-300 ${
-                menuOpen ? "opacity-0" : ""
-              }`}
+              className={`block h-0.5 w-6 transition-all duration-300 ${
+                scrolled ? "bg-neutral-900" : "bg-white"
+              } ${menuOpen ? "opacity-0" : ""}`}
             />
             <span
-              className={`block h-0.5 w-6 bg-neutral-900 transition-all duration-300 ${
-                menuOpen ? "-translate-y-2 -rotate-45" : ""
-              }`}
+              className={`block h-0.5 w-6 transition-all duration-300 ${
+                scrolled ? "bg-neutral-900" : "bg-white"
+              } ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
             />
           </button>
         </div>

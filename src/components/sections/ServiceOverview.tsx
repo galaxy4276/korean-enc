@@ -10,112 +10,25 @@ const services = [
     title: "수술실",
     description:
       "ISO Class 5~7 기준 충족, HEPA 필터 시스템과 양압 설계로 무균 환경을 구현합니다.",
-    icon: (
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M24 4v16M16 12h16M8 24h32v16H8V24z"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M16 32h4M28 32h4"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
+    image: "/images/service-surgery.png",
   },
   {
     title: "격리실",
     description:
       "음압/양압 전환이 가능한 격리실 설계로 감염병 확산을 차단합니다.",
-    icon: (
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect
-          x="8"
-          y="8"
-          width="32"
-          height="32"
-          rx="0"
-          stroke="currentColor"
-          strokeWidth="2.5"
-        />
-        <path
-          d="M8 8l32 32M40 8L8 40"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        />
-        <circle cx="24" cy="24" r="6" stroke="currentColor" strokeWidth="2.5" />
-      </svg>
-    ),
+    image: "/images/service-isolation.png",
   },
   {
     title: "중환자실",
     description:
       "환자 동선과 의료진 효율을 고려한 최적 레이아웃과 청정 환경을 설계합니다.",
-    icon: (
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M4 28h8l4-8 4 16 4-12 4 8 4-4h12"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <rect
-          x="12"
-          y="36"
-          width="24"
-          height="6"
-          stroke="currentColor"
-          strokeWidth="2.5"
-        />
-      </svg>
-    ),
+    image: "/images/service-icu.png",
   },
   {
     title: "시설 유지보수",
     description:
       "정기 점검, 필터 교체, 기밀 테스트 등 시공 이후 유지보수를 책임집니다.",
-    icon: (
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 48 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M18 6l-2 8-8 2 6 6-2 8 8-2 6 6 2-8 8-2-6-6 2-8-8 2-6-6z"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
-        <circle cx="24" cy="24" r="6" stroke="currentColor" strokeWidth="2.5" />
-      </svg>
-    ),
+    image: "/images/service-maintenance.png",
   },
 ];
 
@@ -129,22 +42,33 @@ export default function ServiceOverview() {
           </h2>
         </ScrollReveal>
 
-        <StaggerContainer className="mt-12 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 lg:grid-cols-4 md:gap-8">
+        <StaggerContainer className="mt-12 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
           {services.map((service) => (
             <StaggerItem key={service.title}>
               <Link
                 href="/services"
-                className="group block border border-neutral-200 p-8 transition-all duration-150 hover:border-primary hover:bg-neutral-50"
+                className="group relative block overflow-hidden aspect-[4/5] md:aspect-[3/4]"
               >
-                <div className="text-primary transition-colors duration-150 group-hover:text-primary-light">
-                  {service.icon}
+                {/* Background image */}
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Gradient overlay — bottom heavy for text */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-primary/0 transition-colors duration-300 group-hover:bg-primary/20" />
+                {/* Content — fixed bottom area */}
+                <div className="absolute bottom-0 left-0 right-0 z-10 p-6 md:p-7">
+                  <div className="w-8 h-[2px] bg-accent mb-4" />
+                  <h3 className="text-[22px] font-bold tracking-[-0.03em] text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)] md:text-[24px]">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 h-[3.4em] text-[13px] leading-[1.7] tracking-[-0.02em] text-white/80 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] md:text-[14px]">
+                    {service.description}
+                  </p>
                 </div>
-                <h3 className="mt-6 text-[20px] font-bold tracking-[-0.03em] text-neutral-900 md:text-[28px]">
-                  {service.title}
-                </h3>
-                <p className="mt-3 text-[14px] leading-[1.7] tracking-[-0.02em] text-neutral-600 md:text-[16px]">
-                  {service.description}
-                </p>
               </Link>
             </StaggerItem>
           ))}

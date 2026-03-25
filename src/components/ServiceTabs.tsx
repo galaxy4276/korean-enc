@@ -16,7 +16,7 @@ const tabs = [
       "수술등 및 의료가스 설비 통합",
       "에폭시 바닥 마감으로 위생 극대화",
     ],
-    gradient: "from-primary-dark to-primary",
+    image: "/images/complete-beige-lamp-closeup.jpeg",
   },
   {
     id: "sterile",
@@ -30,7 +30,7 @@ const tabs = [
       "양압 시스템으로 외부 오염 차단",
       "패스박스 설치로 물품 반출입 관리",
     ],
-    gradient: "from-primary to-primary-light",
+    image: "/images/complete-white-lamp.png",
   },
   {
     id: "icu",
@@ -44,7 +44,7 @@ const tabs = [
       "모니터링 설비 통합 구축",
       "격벽 구조로 환자 간 감염 방지",
     ],
-    gradient: "from-primary-light to-primary",
+    image: "/images/complete-blue-stainless-cabinet.png",
   },
   {
     id: "isolation",
@@ -58,7 +58,7 @@ const tabs = [
       "독립 공조 시스템 설치",
       "전실 설계로 이중 안전 확보",
     ],
-    gradient: "from-primary-dark to-primary-light",
+    image: "/images/complete-corridor-entrance.jpeg",
   },
 ];
 
@@ -114,27 +114,12 @@ export default function ServiceTabs() {
             </ul>
           </div>
 
-          {/* Photo Placeholder */}
-          <div
-            className={`relative aspect-[4/3] bg-gradient-to-br ${tabs[activeTab].gradient} flex items-center justify-center`}
-          >
-            <div className="text-center text-white/60">
-              <svg
-                className="w-16 h-16 mx-auto mb-3 opacity-50"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"
-                />
-              </svg>
-              <p className="text-sm font-medium">{tabs[activeTab].label} 시공 사진</p>
-            </div>
-          </div>
+          {/* Photo */}
+          <img
+            src={tabs[activeTab].image}
+            alt={`${tabs[activeTab].label} 시공 사진`}
+            className="aspect-[4/3] w-full object-cover"
+          />
         </motion.div>
       </AnimatePresence>
     </div>

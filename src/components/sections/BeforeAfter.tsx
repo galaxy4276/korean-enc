@@ -16,7 +16,7 @@ export default function BeforeAfter() {
           <div className="mt-12 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-8">
             {/* Before */}
             <div className="relative">
-              <div className="aspect-[4/3] w-full bg-gradient-to-br from-[#8b2020] to-[#c44040]" />
+              <img src="/images/construction-demolition.jpeg" alt="시공 전 철거 현장" className="aspect-[4/3] w-full object-cover" />
               <span className="absolute top-4 left-4 bg-[#dc3545] px-4 py-1.5 text-[12px] font-bold tracking-[-0.01em] text-white">
                 BEFORE
               </span>
@@ -24,7 +24,7 @@ export default function BeforeAfter() {
 
             {/* After */}
             <div className="relative">
-              <div className="aspect-[4/3] w-full bg-gradient-to-br from-[#1a6b3c] to-[#28a745]" />
+              <img src="/images/complete-beige-twin-lamps.jpeg" alt="완공된 수술실" className="aspect-[4/3] w-full object-cover" />
               <span className="absolute top-4 left-4 bg-[#28a745] px-4 py-1.5 text-[12px] font-bold tracking-[-0.01em] text-white">
                 AFTER
               </span>

@@ -16,7 +16,7 @@ interface Project {
   category: string;
   area: string;
   duration: string;
-  color: string;
+  image: string;
 }
 
 const projects: Project[] = [
@@ -26,7 +26,7 @@ const projects: Project[] = [
     category: "수술실",
     area: "150m\u00B2",
     duration: "4개월",
-    color: "from-[#8B7355] to-[#A0937E]",
+    image: "/images/complete-beige-twin-lamps.jpeg",
   },
   {
     id: 2,
@@ -34,7 +34,7 @@ const projects: Project[] = [
     category: "격리실",
     area: "80m\u00B2",
     duration: "2개월",
-    color: "from-[#1b4d8e] to-[#2a6cb8]",
+    image: "/images/complete-corridor-entrance.jpeg",
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const projects: Project[] = [
     category: "중환자실",
     area: "200m\u00B2",
     duration: "5개월",
-    color: "from-[#f8f9fa] to-[#dee2e6]",
+    image: "/images/complete-blue-stainless-cabinet.png",
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ const projects: Project[] = [
     category: "수술실",
     area: "120m\u00B2",
     duration: "3개월",
-    color: "from-[#2d5a27] to-[#4a8c3f]",
+    image: "/images/complete-green-monitor.png",
   },
   {
     id: 5,
@@ -58,7 +58,7 @@ const projects: Project[] = [
     category: "수술실",
     area: "60m\u00B2",
     duration: "2개월",
-    color: "from-[#1b4d8e] to-[#3a7bd5]",
+    image: "/images/complete-blue-table-equipment.png",
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ const projects: Project[] = [
     category: "수술실",
     area: "180m\u00B2",
     duration: "4개월",
-    color: "from-[#8B7355] to-[#C4A77D]",
+    image: "/images/complete-beige-gas-panel.jpeg",
   },
 ];
 
@@ -108,8 +108,10 @@ function ProjectCard({
       <div onClick={onClick}>
         {/* Image area */}
         <div className="relative overflow-hidden aspect-[4/3]">
-          <div
-            className={`w-full h-full bg-gradient-to-br ${project.color}`}
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
           />
           {/* Hover overlay */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-all duration-100 flex items-center justify-center">
@@ -143,7 +145,7 @@ function ProjectModal({
   project: Project;
   onClose: () => void;
 }) {
-  const galleryItems = Array.from({ length: 4 }, (_, i) => i);
+
 
   return (
     <motion.div
@@ -191,17 +193,13 @@ function ProjectModal({
         {/* Before / After area */}
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="relative aspect-[4/3]">
-            <div
-              className={`w-full h-full bg-gradient-to-br ${project.color} opacity-60`}
-            />
+            <img src="/images/construction-demolition.jpeg" alt="시공 전" className="w-full h-full object-cover" />
             <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-bold px-3 py-1 tracking-[-0.01em]">
               BEFORE
             </span>
           </div>
           <div className="relative aspect-[4/3]">
-            <div
-              className={`w-full h-full bg-gradient-to-br ${project.color}`}
-            />
+            <img src={project.image} alt="시공 후" className="w-full h-full object-cover" />
             <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-bold px-3 py-1 tracking-[-0.01em]">
               AFTER
             </span>
@@ -250,10 +248,17 @@ function ProjectModal({
               시공 갤러리
             </p>
             <div className="grid grid-cols-4 gap-3">
-              {galleryItems.map((i) => (
-                <div
+              {[
+                "/images/construction-demolition.jpeg",
+                "/images/construction-floor-primer.jpeg",
+                "/images/construction-self-leveling.jpeg",
+                project.image,
+              ].map((src, i) => (
+                <img
                   key={i}
-                  className={`aspect-square bg-gradient-to-br ${project.color} opacity-${i === 0 ? 100 : 70 - i * 10}`}
+                  src={src}
+                  alt={`시공 과정 ${i + 1}`}
+                  className="aspect-square object-cover"
                 />
               ))}
             </div>
@@ -288,8 +293,12 @@ export default function PortfolioPage() {
   return (
     <main>
       {/* ── Hero ── */}
-      <section className="bg-primary-dark pt-[120px] pb-[80px] md:pt-[200px] md:pb-[120px]">
-        <Container>
+      <section className="relative bg-primary-dark pt-[120px] pb-[80px] md:pt-[200px] md:pb-[120px]">
+        <div className="absolute inset-0">
+          <img src="/images/complete-blue-panorama.jpeg" alt="" className="h-full w-full object-cover" />
+        </div>
+        <div className="absolute inset-0 bg-primary-dark/75" />
+        <Container className="relative z-10">
           <ScrollReveal>
             <p className="text-accent text-sm md:text-base font-bold tracking-[-0.02em]">
               PORTFOLIO

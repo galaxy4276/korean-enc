@@ -50,8 +50,11 @@ export default function AboutPage() {
   return (
     <main>
       {/* ── 1. Page Hero ────────────────────────────────────────── */}
-      <section className="relative flex min-h-[420px] items-center justify-center bg-gradient-to-br from-primary-dark via-primary to-primary-light md:min-h-[520px]">
-        <div className="absolute inset-0 bg-black/20" />
+      <section className="relative flex min-h-[420px] items-center justify-center md:min-h-[520px]">
+        <div className="absolute inset-0">
+          <img src="/images/complete-blue-table-equipment.png" alt="" className="h-full w-full object-cover" />
+        </div>
+        <div className="absolute inset-0 bg-primary-dark/70" />
         <div className="relative z-10 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -107,21 +110,11 @@ export default function AboutPage() {
             </h2>
           </ScrollReveal>
 
-          <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-            {/* Photo placeholder */}
+          <div className="mx-auto max-w-[680px]">
             <ScrollReveal>
-              <div className="flex aspect-[3/4] w-full items-center justify-center bg-gradient-to-br from-primary-dark via-primary to-primary-light">
-                <span className="text-[14px] font-medium tracking-[-0.02em] text-white/50">
-                  대표 사진
-                </span>
-              </div>
-            </ScrollReveal>
-
-            {/* Quote */}
-            <ScrollReveal delay={0.15}>
               <div>
-                <div className="mb-6 h-[2px] w-12 bg-accent" />
-                <blockquote className="text-[14px] leading-[1.7] tracking-[-0.02em] text-neutral-900 md:text-[16px]">
+                <div className="mb-6 h-[2px] w-12 bg-accent mx-auto md:mx-0" />
+                <blockquote className="text-center text-[16px] leading-[1.8] tracking-[-0.02em] text-neutral-900 md:text-left md:text-[18px]">
                   &ldquo;항상 최선을 다하며, 정직하고 맡은 바 끝까지 책임을 다하는
                   코리아이앤씨가 되도록 노력하고 있습니다.
                   <br />
@@ -129,7 +122,7 @@ export default function AboutPage() {
                   20년 이상의 현장 경험을 바탕으로 병원 내 클린룸 환경을
                   전문적으로 설계하고 시공합니다.&rdquo;
                 </blockquote>
-                <p className="mt-8 text-[14px] font-bold tracking-[-0.02em] text-neutral-900 md:text-[16px]">
+                <p className="mt-8 text-center text-[14px] font-bold tracking-[-0.02em] text-neutral-900 md:text-left md:text-[16px]">
                   남기태
                   <span className="ml-2 font-normal text-neutral-600">
                     대표이사
@@ -174,7 +167,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* ── 5. Certifications (예약) ────────────────────────────── */}
+      {/* ── 5. Certifications (예약) — 비활성 ──
       <section className="bg-neutral-50 py-[80px] md:py-[140px]">
         <Container>
           <ScrollReveal>
@@ -196,6 +189,7 @@ export default function AboutPage() {
           </StaggerContainer>
         </Container>
       </section>
+      ──────────────────────────────────────────── */}
 
       {/* ── 6. CTA ──────────────────────────────────────────────── */}
       <section className="py-[80px] md:py-[160px]">

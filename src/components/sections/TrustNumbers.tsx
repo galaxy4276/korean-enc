@@ -53,7 +53,6 @@ function CountUp({
 
 const stats = [
   { target: 20, suffix: "년+", label: "현장 경험" },
-  { target: 200, suffix: "건+", label: "누적 시공" },
   { target: 100, suffix: "%", label: "책임 준공" },
 ];
 
@@ -61,7 +60,7 @@ export default function TrustNumbers() {
   return (
     <section className="bg-neutral-100 py-[var(--spacing-section-mobile)] md:py-[var(--spacing-section)]">
       <Container>
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-8">
           {stats.map((stat) => (
             <CountUp key={stat.label} {...stat} />
           ))}

@@ -37,3 +37,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# icon generation artifacts
+/public/icons/preview.html
+/public/icons/icon-v*.png
+/docs/hero-mockups.html
+/docs/style-guide.html
