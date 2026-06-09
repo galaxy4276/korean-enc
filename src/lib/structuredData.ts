@@ -1,0 +1,109 @@
+export const SITE_URL = "https://koreanenc.vercel.app";
+
+function toAbsoluteImageUrl(path: string): string {
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+  return SITE_URL + path;
+}
+
+interface ServiceSchemaInput {
+  slug: string;
+  name: string;
+  description: string;
+  serviceType: string;
+}
+
+export function serviceSchema({
+  slug,
+  name,
+  description,
+  serviceType,
+}: ServiceSchemaInput): Record<string, unknown> {
+  return {
+    "@type": "Service",
+    "@id": `${SITE_URL}/services/${slug}#service`,
+    name,
+    description,
+    serviceType,
+    areaServed: "대한민국",
+    provider: {
+      "@id": `${SITE_URL}/#business`,
+    },
+    url: `${SITE_URL}/services/${slug}`,
+  };
+}
+
+interface BreadcrumbItem {
+  name: string;
+  path: string;
+}
+
+export function breadcrumbSchema(
+  items: BreadcrumbItem[]
+): Record<string, unknown> {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: SITE_URL + item.path,
+    })),
+  };
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export function faqSchema(
+  slug: string,
+  faqs: FaqItem[]
+): Record<string, unknown> {
+  return {
+    "@type": "FAQPage",
+    "@id": `${SITE_URL}/${slug}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+interface ArticleSchemaInput {
+  slug: string;
+  headline: string;
+  description: string;
+  images: string[];
+  section: string;
+}
+
+export function articleSchema({
+  slug,
+  headline,
+  description,
+  images,
+  section,
+}: ArticleSchemaInput): Record<string, unknown> {
+  return {
+    "@type": "Article",
+    "@id": `${SITE_URL}/portfolio/${slug}#article`,
+    headline,
+    description,
+    image: images.map(toAbsoluteImageUrl),
+    articleSection: section,
+    author: {
+      "@id": `${SITE_URL}/#business`,
+    },
+    publisher: {
+      "@id": `${SITE_URL}/#business`,
+    },
+    mainEntityOfPage: `${SITE_URL}/portfolio/${slug}`,
+  };
+}
