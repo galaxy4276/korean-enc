@@ -1,7 +1,15 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import { motion } from "motion/react";
+import Link from "next/link";
 import Container from "@/components/Container";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -12,6 +20,26 @@ const CONSTRUCTION_TYPES = [
   "무균실",
   "기타",
 ] as const;
+
+const OFFICE = {
+  name: "코리아이앤씨",
+  phone: "010-8115-0500",
+  email: "koreaencgo@nate.com",
+  address: "경기도 화성시 정남면 세자로 301",
+  lotAddress: "경기도 화성시 정남면 보통리 78-1",
+  latitude: 37.193844472321,
+  longitude: 126.97923308289,
+};
+
+const CONTACT_RECIPIENTS = (
+  process.env.NEXT_PUBLIC_CONTACT_RECIPIENT_EMAILS ?? OFFICE.email
+)
+  .split(",")
+  .map((email) => email.trim())
+  .filter(Boolean);
+
+const CONTACT_FORM_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT;
+const KAKAO_MAP_APP_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY;
 
 interface FormData {
   organization: string;
@@ -35,16 +63,197 @@ const initialFormData: FormData = {
   details: "",
 };
 
+type SubmitStatus = "idle" | "sent" | "mailto";
+
+type KakaoAddressResult = {
+  x: string;
+  y: string;
+};
+
+type KakaoMapWindow = Window & {
+  kakao?: {
+    maps: {
+      load: (callback: () => void) => void;
+      LatLng: new (latitude: number, longitude: number) => unknown;
+      Map: new (
+        container: HTMLElement,
+        options: { center: unknown; level: number }
+      ) => {
+        setCenter: (position: unknown) => void;
+      };
+      Marker: new (options: { map: unknown; position: unknown }) => unknown;
+      InfoWindow: new (options: { content: string }) => {
+        open: (map: unknown, marker: unknown) => void;
+      };
+      services: {
+        Geocoder: new () => {
+          addressSearch: (
+            address: string,
+            callback: (result: KakaoAddressResult[], status: string) => void
+          ) => void;
+        };
+        Status: {
+          OK: string;
+        };
+      };
+    };
+  };
+};
+
+function buildEmailBody(formData: FormData) {
+  return [
+    "[코리아이앤씨 문의 접수]",
+    "",
+    `병원/기관명: ${formData.organization}`,
+    `담당자명: ${formData.contactPerson}`,
+    `연락처: ${formData.phone}`,
+    `이메일: ${formData.email || "-"}`,
+    `공사 유형: ${
+      formData.constructionTypes.length > 0
+        ? formData.constructionTypes.join(", ")
+        : "-"
+    }`,
+    `예상 규모: ${formData.estimatedArea || "-"}`,
+    `희망 시공 시기: ${formData.preferredTiming || "-"}`,
+    "",
+    "상세 문의 내용",
+    formData.details || "-",
+  ].join("\n");
+}
+
+function buildMailtoUrl(formData: FormData) {
+  const subject = `[코리아이앤씨 문의] ${formData.organization} / ${formData.contactPerson}`;
+  const params = new URLSearchParams({
+    subject,
+    body: buildEmailBody(formData),
+  });
+
+  return `mailto:${CONTACT_RECIPIENTS.join(",")}?${params.toString()}`;
+}
+
+function KakaoOfficeMap() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [mapStatus, setMapStatus] = useState<"ready" | "fallback">(
+    KAKAO_MAP_APP_KEY ? "ready" : "fallback"
+  );
+  const kakaoSearchUrl = useMemo(
+    () =>
+      `https://map.kakao.com/link/search/${encodeURIComponent(
+        OFFICE.address
+      )}`,
+    []
+  );
+
+  useEffect(() => {
+    if (!KAKAO_MAP_APP_KEY || !mapRef.current) return;
+
+    const scriptId = "kakao-map-sdk";
+    const loadMap = () => {
+      const kakao = (window as KakaoMapWindow).kakao;
+      if (!kakao?.maps || !mapRef.current) {
+        setMapStatus("fallback");
+        return;
+      }
+
+      kakao.maps.load(() => {
+        if (!mapRef.current) return;
+
+        const fallbackPosition = new kakao.maps.LatLng(
+          OFFICE.latitude,
+          OFFICE.longitude
+        );
+        const map = new kakao.maps.Map(mapRef.current, {
+          center: fallbackPosition,
+          level: 4,
+        });
+
+        const renderMarker = (position: unknown) => {
+          map.setCenter(position);
+          const marker = new kakao.maps.Marker({ map, position });
+          const infoWindow = new kakao.maps.InfoWindow({
+            content: `<div style="padding:10px 14px;font-size:13px;font-weight:700;white-space:nowrap;">${OFFICE.name}</div>`,
+          });
+          infoWindow.open(map, marker);
+        };
+
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(OFFICE.address, (result, status) => {
+          if (status === kakao.maps.services.Status.OK && result[0]) {
+            renderMarker(
+              new kakao.maps.LatLng(Number(result[0].y), Number(result[0].x))
+            );
+            return;
+          }
+
+          renderMarker(fallbackPosition);
+        });
+      });
+    };
+
+    const existingScript = document.getElementById(scriptId);
+    if (existingScript) {
+      loadMap();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.async = true;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_MAP_APP_KEY}&autoload=false&libraries=services`;
+    script.onload = loadMap;
+    script.onerror = () => setMapStatus("fallback");
+    document.head.appendChild(script);
+  }, []);
+
+  return (
+    <div className="space-y-4">
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-100">
+        <div
+          ref={mapRef}
+          className={`absolute inset-0 ${mapStatus === "fallback" ? "hidden" : ""}`}
+          aria-label={`${OFFICE.name} 위치 지도`}
+        />
+        {mapStatus === "fallback" && (
+          <div className="absolute inset-0 flex flex-col items-start justify-end bg-neutral-100 p-6">
+            <p className="text-[12px] font-medium uppercase tracking-[-0.01em] text-neutral-600">
+              Office
+            </p>
+            <p className="mt-2 text-[18px] font-bold tracking-[-0.03em] text-neutral-900">
+              {OFFICE.name}
+            </p>
+            <p className="mt-3 text-[14px] leading-[1.7] tracking-[-0.02em] text-neutral-600">
+              {OFFICE.address}
+              <br />
+              {OFFICE.lotAddress}
+            </p>
+          </div>
+        )}
+      </div>
+      <a
+        href={kakaoSearchUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex rounded-[30px] border border-neutral-300 px-5 py-2.5 text-[14px] font-bold tracking-[-0.02em] text-neutral-900 transition-colors duration-150 hover:border-primary hover:text-primary"
+      >
+        카카오맵에서 보기
+      </a>
+    </div>
+  );
+}
+
 export default function ContactPage() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (submitError) setSubmitError("");
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: false }));
     }
@@ -64,14 +273,60 @@ export default function ContactPage() {
     if (!formData.organization.trim()) newErrors.organization = true;
     if (!formData.contactPerson.trim()) newErrors.contactPerson = true;
     if (!formData.phone.trim()) newErrors.phone = true;
+    if (
+      formData.email.trim() &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+    ) {
+      newErrors.email = true;
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (validate()) {
-      setSubmitted(true);
+    setSubmitError("");
+    if (!validate()) return;
+
+    const payload = {
+      recipients: CONTACT_RECIPIENTS,
+      submittedAt: new Date().toISOString(),
+      source: "korean-enc/contact",
+      formData,
+      email: {
+        subject: `[코리아이앤씨 문의] ${formData.organization} / ${formData.contactPerson}`,
+        body: buildEmailBody(formData),
+      },
+    };
+
+    if (!CONTACT_FORM_ENDPOINT) {
+      window.location.href = buildMailtoUrl(formData);
+      setSubmitStatus("mailto");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const response = await fetch(CONTACT_FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Contact form request failed: ${response.status}`);
+      }
+
+      setSubmitStatus("sent");
+      setFormData(initialFormData);
+    } catch {
+      setSubmitError(
+        "문의 전송에 실패했습니다. 잠시 후 다시 시도하시거나 전화로 문의해주세요."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -97,7 +352,7 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 md:grid-cols-[1fr_380px] gap-[60px] md:gap-[80px]">
             {/* Left: Form */}
             <ScrollReveal>
-              {submitted ? (
+              {submitStatus !== "idle" ? (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -121,11 +376,22 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <p className="text-[20px] md:text-[28px] font-bold tracking-[-0.03em] text-neutral-900">
-                      접수가 완료되었습니다
+                      {submitStatus === "sent"
+                        ? "접수가 완료되었습니다"
+                        : "메일 앱이 열렸습니다"}
                     </p>
                     <p className="mt-3 text-[14px] md:text-[16px] text-neutral-600 leading-[1.7] tracking-[-0.02em]">
-                      영업일 기준 1일 이내 연락드리겠습니다.
+                      {submitStatus === "sent"
+                        ? "영업일 기준 1일 이내 연락드리겠습니다."
+                        : "메일 앱에서 수신자와 내용을 확인한 뒤 전송을 완료해주세요."}
                     </p>
+                    <button
+                      type="button"
+                      onClick={() => setSubmitStatus("idle")}
+                      className="mt-8 rounded-[30px] border border-neutral-300 px-6 py-3 text-[14px] font-bold tracking-[-0.02em] text-neutral-900 transition-colors duration-150 hover:border-primary hover:text-primary"
+                    >
+                      새 문의 작성
+                    </button>
                   </div>
                 </motion.div>
               ) : (
@@ -232,9 +498,18 @@ export default function ContactPage() {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full bg-transparent border-b-2 border-neutral-300 py-3 text-[16px] tracking-[-0.02em] outline-none transition-colors duration-150 focus:border-primary"
+                        className={`w-full bg-transparent border-b-2 py-3 text-[16px] tracking-[-0.02em] outline-none transition-colors duration-150 ${
+                          errors.email
+                            ? "border-red-500"
+                            : "border-neutral-300 focus:border-primary"
+                        }`}
                         placeholder="example@email.com"
                       />
+                      {errors.email && (
+                        <p className="mt-1 text-[12px] text-red-500">
+                          이메일 형식을 확인해주세요
+                        </p>
+                      )}
                     </div>
 
                     {/* 공사 유형 */}
@@ -354,10 +629,16 @@ export default function ContactPage() {
                     {/* Submit */}
                     <button
                       type="submit"
-                      className="w-full py-4 bg-neutral-800 text-white text-[16px] md:text-[18px] font-[800] tracking-[-0.02em] rounded-[30px] transition-all duration-150 hover:bg-white hover:text-neutral-800 border-2 border-neutral-800 cursor-pointer"
+                      disabled={isSubmitting}
+                      className="w-full py-4 bg-neutral-800 text-white text-[16px] md:text-[18px] font-[800] tracking-[-0.02em] rounded-[30px] transition-all duration-150 hover:bg-white hover:text-neutral-800 border-2 border-neutral-800 cursor-pointer disabled:cursor-wait disabled:border-neutral-400 disabled:bg-neutral-400 disabled:hover:text-white"
                     >
-                      문의 보내기
+                      {isSubmitting ? "전송 중" : "문의 보내기"}
                     </button>
+                    {submitError && (
+                      <p className="text-[13px] text-red-500 tracking-[-0.02em] leading-[1.7]">
+                        {submitError}
+                      </p>
+                    )}
                   </div>
                 </form>
               )}
@@ -372,10 +653,10 @@ export default function ContactPage() {
                     Phone
                   </p>
                   <a
-                    href="tel:010-8115-0500"
+                    href={`tel:${OFFICE.phone}`}
                     className="text-[28px] md:text-[36px] font-bold tracking-[-0.04em] text-neutral-900 hover:text-primary transition-colors duration-150"
                   >
-                    010-8115-0500
+                    {OFFICE.phone}
                   </a>
                 </div>
 
@@ -385,10 +666,10 @@ export default function ContactPage() {
                     Email
                   </p>
                   <a
-                    href="mailto:koreaencgo@nate.com"
+                    href={`mailto:${CONTACT_RECIPIENTS.join(",")}`}
                     className="text-[16px] md:text-[18px] tracking-[-0.02em] text-neutral-900 hover:text-primary transition-colors duration-150"
                   >
-                    koreaencgo@nate.com
+                    {CONTACT_RECIPIENTS.join(", ")}
                   </a>
                 </div>
 
@@ -398,19 +679,45 @@ export default function ContactPage() {
                     Address
                   </p>
                   <p className="text-[16px] md:text-[18px] tracking-[-0.02em] text-neutral-900 leading-[1.7]">
-                    경기도 화성시 정남면 보통리 78-1
+                    {OFFICE.address}
+                    <br />
+                    <span className="text-neutral-600">{OFFICE.lotAddress}</span>
                   </p>
                 </div>
 
-                {/* Map Placeholder */}
-                <div className="w-full aspect-[4/3] bg-gradient-to-br from-neutral-200 to-neutral-100 flex items-center justify-center">
-                  <span className="text-[14px] text-neutral-400 tracking-[-0.02em]">
-                    지도 영역
-                  </span>
-                </div>
+                {/* Map */}
+                <KakaoOfficeMap />
               </div>
             </ScrollReveal>
           </div>
+        </Container>
+      </section>
+
+      {/* Auxiliary SEO Links */}
+      <section className="pb-[40px] md:pb-[60px]">
+        <Container>
+          <ScrollReveal>
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              <Link
+                href="/services/cost"
+                className="text-[13px] md:text-[14px] text-neutral-500 tracking-[-0.01em] hover:text-primary transition-colors duration-150 underline underline-offset-2"
+              >
+                병원 클린룸 시공 비용
+              </Link>
+              <Link
+                href="/services/process"
+                className="text-[13px] md:text-[14px] text-neutral-500 tracking-[-0.01em] hover:text-primary transition-colors duration-150 underline underline-offset-2"
+              >
+                클린룸 시공순서
+              </Link>
+              <Link
+                href="/services"
+                className="text-[13px] md:text-[14px] text-neutral-500 tracking-[-0.01em] hover:text-primary transition-colors duration-150 underline underline-offset-2"
+              >
+                서비스 안내
+              </Link>
+            </div>
+          </ScrollReveal>
         </Container>
       </section>
 

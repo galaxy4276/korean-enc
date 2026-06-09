@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Container from "@/components/Container";
 import ScrollReveal, {
   StaggerContainer,
@@ -5,13 +6,21 @@ import ScrollReveal, {
 } from "@/components/ScrollReveal";
 import ServiceTabs from "@/components/ServiceTabs";
 import Link from "next/link";
+import SeoRelatedLinks from "@/components/SeoRelatedLinks";
 
 /* ───────── Section 1: Page Hero ───────── */
 function PageHero() {
   return (
     <section className="relative bg-primary-dark py-28 md:py-40">
       <div className="absolute inset-0">
-        <img src="/images/complete-green-monitor.png" alt="" className="h-full w-full object-cover" />
+        <Image
+          src="/images/complete-green-monitor.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
       </div>
       <div className="absolute inset-0 bg-primary-dark/75" />
       <Container className="relative z-10">
@@ -37,25 +46,25 @@ const bcrCards = [
     title: "생물학적 입자 제어",
     description:
       "세균, 바이러스 등 생체 입자를 HEPA 필터를 통해 효과적으로 제거하여 청정 환경을 조성합니다.",
-    image: "/images/bcr-biological.png",
+    image: "/images/bcr-biological.webp",
   },
   {
     title: "비생체 입자 제어",
     description:
       "먼지, 미립자 등 비생체 오염물질을 체계적으로 제어하여 청정 환경을 안정적으로 유지합니다.",
-    image: "/images/bcr-particle.png",
+    image: "/images/bcr-particle.webp",
   },
   {
     title: "살균/멸균 환경",
     description:
       "UV 살균, 화학적 멸균 등 다양한 방법으로 무균 상태를 보장하여 감염 위험을 원천 차단합니다.",
-    image: "/images/bcr-sterilization.png",
+    image: "/images/bcr-sterilization.webp",
   },
   {
     title: "공기 청정도 관리",
     description:
       "양압/음압 제어와 공기 순환 시스템 운영으로 실내 공기 청정도를 항시 최적 상태로 관리합니다.",
-    image: "/images/bcr-airquality.png",
+    image: "/images/bcr-airquality.webp",
   },
 ];
 
@@ -72,8 +81,8 @@ function BcrSection() {
           </h2>
           <p className="text-sm md:text-base leading-[1.7] tracking-[-0.02em] text-neutral-600 max-w-3xl mb-12 md:mb-16">
             BCR(Bio Clean Room)은 생물학적 오염을 제어하는 특수 청정 공간입니다.
-            병원 수술실, 무균실, 중환자실 등 의료 시설에서 환자 안전을 위해
-            필수적으로 적용됩니다.
+            세균, 곰팡이 같은 생물학적 입자와 먼지 같은 비생체 입자를 함께
+            제어하고, 살균·멸균 운영이 가능한 의료 공간을 말합니다.
           </p>
         </ScrollReveal>
 
@@ -81,7 +90,13 @@ function BcrSection() {
           {bcrCards.map((card) => (
             <StaggerItem key={card.title}>
               <div className="bg-neutral-50 p-8 md:p-10 h-full flex gap-6 items-start">
-                <img src={card.image} alt={card.title} className="w-16 h-16 md:w-20 md:h-20 shrink-0 object-contain" />
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  width={80}
+                  height={80}
+                  className="w-16 h-16 md:w-20 md:h-20 shrink-0 object-contain"
+                />
                 <div>
                   <h3 className="text-lg md:text-xl font-bold tracking-[-0.03em] text-neutral-900 mb-3">
                     {card.title}
@@ -131,7 +146,7 @@ const processSteps = [
     step: "02",
     title: "설계 및 견적",
     details: [
-      "상세 도면 작성",
+      "평면, 천장, 공조 설비 검토",
       "자재 선정 및 사양 확정",
       "투명한 견적서 제공",
     ],
@@ -151,15 +166,15 @@ const processSteps = [
     details: [
       "벽체 패널 설치",
       "천장 및 조명 시공",
-      "공조 설비 및 의료가스 배관",
+      "공조 설비, 의료가스 배관, 출입통제 연동",
     ],
   },
   {
     step: "05",
     title: "검증 및 인수",
     details: [
-      "청정도 측정 및 인증",
-      "설비 기능 테스트",
+      "파티클, 차압, 소음 측정",
+      "자동문, 인터락, 차압계 기능 확인",
       "고객 입회 검수 완료",
     ],
   },
@@ -231,7 +246,7 @@ function ProcessSection() {
 const afterServiceItems = [
   {
     title: "정기 점검",
-    description: "분기별 정기 방문 점검으로 클린룸 성능을 지속적으로 유지합니다.",
+    description: "차압, 소음, 공조 상태를 확인해 클린룸 운영 상태를 점검합니다.",
     icon: (
       <svg
         className="w-8 h-8 text-primary"
@@ -251,7 +266,7 @@ const afterServiceItems = [
   {
     title: "필터 교체",
     description:
-      "HEPA 필터 등 소모품을 적시에 교체하여 청정도를 최적 상태로 유지합니다.",
+      "BFU, FFU, HEPA 필터와 팬 상태를 확인하고 필요한 부품을 교체합니다.",
     icon: (
       <svg
         className="w-8 h-8 text-primary"
@@ -269,9 +284,9 @@ const afterServiceItems = [
     ),
   },
   {
-    title: "긴급 대응",
+    title: "설비 보수",
     description:
-      "돌발 상황 발생 시 신속한 출동과 복구로 운영 중단을 최소화합니다.",
+      "공조기, 배기팬, 폐수 설비 등 클린룸 운영 설비의 이상을 확인하고 보수합니다.",
     icon: (
       <svg
         className="w-8 h-8 text-primary"
@@ -289,9 +304,9 @@ const afterServiceItems = [
     ),
   },
   {
-    title: "기술 상담",
+    title: "운영 상담",
     description:
-      "클린룸 운영 관련 기술적 문의에 전문 엔지니어가 상시 대응합니다.",
+      "수술실, 격리실, 중환자실의 운영 조건에 맞춰 유지관리 방향을 안내합니다.",
     icon: (
       <svg
         className="w-8 h-8 text-primary"
@@ -361,6 +376,47 @@ function AfterServiceSection() {
   );
 }
 
+/* ───────── Section: 서비스 상세 링크 ───────── */
+function ServiceLinksSection() {
+  return (
+    <SeoRelatedLinks
+      title="서비스 상세"
+      links={[
+        {
+          href: "/services/surgery-cleanroom",
+          title: "수술실 클린룸 시공",
+          description: "무균 수술실 BCR 설계·시공",
+        },
+        {
+          href: "/services/negative-pressure-room",
+          title: "음압격리실 시공",
+          description: "음압격리병실 설치 기준 반영",
+        },
+        {
+          href: "/services/icu-cleanroom",
+          title: "중환자실 클린룸 시공",
+          description: "무균병동 청정 구역",
+        },
+        {
+          href: "/services/hvac-filter-maintenance",
+          title: "공조설비·필터 유지관리",
+          description: "FFU·HEPA·ULPA·차압 관리",
+        },
+        {
+          href: "/services/process",
+          title: "클린룸 시공순서",
+          description: "6단계 공정 안내",
+        },
+        {
+          href: "/services/cost",
+          title: "시공 비용 안내",
+          description: "견적 기준과 상담 절차",
+        },
+      ]}
+    />
+  );
+}
+
 /* ───────── Page Export ───────── */
 export default function ServicesPage() {
   return (
@@ -368,6 +424,7 @@ export default function ServicesPage() {
       <PageHero />
       <BcrSection />
       <ServiceDetailSection />
+      <ServiceLinksSection />
       <ProcessSection />
       <AfterServiceSection />
     </main>

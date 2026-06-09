@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Container from "@/components/Container";
 import ScrollReveal from "@/components/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/ScrollReveal";
@@ -9,26 +10,26 @@ const services = [
   {
     title: "수술실",
     description:
-      "ISO Class 5~7 기준 충족, HEPA 필터 시스템과 양압 설계로 무균 환경을 구현합니다.",
-    image: "/images/service-surgery.png",
+      "설계 검토부터 패널, 천장, 공조, 의료가스 설비까지 수술실 공정을 통합 시공합니다.",
+    image: "/images/kenc-surgery-complete-white.webp",
   },
   {
     title: "격리실",
     description:
-      "음압/양압 전환이 가능한 격리실 설계로 감염병 확산을 차단합니다.",
-    image: "/images/service-isolation.png",
+      "음압병실, 전실, 차압계, 인터락, 폐수·배기 설비까지 격리 동선을 체계화합니다.",
+    image: "/images/kenc-isolation-corridor.webp",
   },
   {
     title: "중환자실",
     description:
-      "환자 동선과 의료진 효율을 고려한 최적 레이아웃과 청정 환경을 설계합니다.",
-    image: "/images/service-icu.png",
+      "병상 구역과 간호 스테이션 동선을 고려해 청정하고 관리하기 쉬운 공간을 만듭니다.",
+    image: "/images/kenc-icu-nurse-station.webp",
   },
   {
     title: "시설 유지보수",
     description:
-      "정기 점검, 필터 교체, 기밀 테스트 등 시공 이후 유지보수를 책임집니다.",
-    image: "/images/service-maintenance.png",
+      "필터 교체, 차압·소음 측정, 팬 점검 등 시공 이후 운영 상태까지 확인합니다.",
+    image: "/images/kenc-maintenance-filter-change.webp",
   },
 ];
 
@@ -50,9 +51,11 @@ export default function ServiceOverview() {
                 className="group relative block overflow-hidden aspect-[4/5] md:aspect-[3/4]"
               >
                 {/* Background image */}
-                <img
+                <Image
                   src={service.image}
                   alt={service.title}
+                  fill
+                  sizes="(min-width: 1440px) 25vw, (min-width: 1080px) 50vw, 100vw"
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 {/* Gradient overlay — bottom heavy for text */}

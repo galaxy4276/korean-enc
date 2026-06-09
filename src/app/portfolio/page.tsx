@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import Container from "@/components/Container";
 import ScrollReveal, {
   StaggerContainer,
   StaggerItem,
 } from "@/components/ScrollReveal";
+import Link from "next/link";
+import {
+  attachmentArchive,
+  attachmentArchiveSummary,
+} from "@/lib/attachmentArchive";
+import { caseStudies } from "@/lib/caseStudies";
 
 /* ───────────────────────── Data ───────────────────────── */
 
@@ -14,63 +21,200 @@ interface Project {
   id: number;
   title: string;
   category: string;
-  area: string;
-  duration: string;
   image: string;
+  summary: string;
+  scope: string;
+  beforeImage: string;
+  gallery: string[];
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    title: "A대학병원 수술실 신축",
+    title: "수술실 클린룸 완공 사례",
     category: "수술실",
-    area: "150m\u00B2",
-    duration: "4개월",
-    image: "/images/complete-beige-twin-lamps.jpeg",
+    image: "/images/kenc-surgery-complete-white.webp",
+    summary: "수술등, 천장 공조, 벽체 마감, 의료 장비 동선을 고려한 수술실 완공 사례입니다.",
+    scope: "벽체 패널, 천장, 조명, 공조 설비, 수술실 마감, 설비 기능 확인",
+    beforeImage: "/images/kenc-surgery-structure-before.webp",
+    gallery: [
+      "/images/kenc-surgery-structure-before.webp",
+      "/images/kenc-surgery-panel-process.webp",
+      "/images/kenc-surgery-design-drawing.webp",
+      "/images/kenc-surgery-complete-white.webp",
+    ],
   },
   {
     id: 2,
-    title: "B종합병원 격리실 구축",
+    title: "음압격리실 구축 사례",
     category: "격리실",
-    area: "80m\u00B2",
-    duration: "2개월",
-    image: "/images/complete-corridor-entrance.jpeg",
+    image: "/images/kenc-isolation-room-bed.webp",
+    summary: "음압병실과 전실, 출입통제, 차압계, 자동문을 함께 구성한 격리실 사례입니다.",
+    scope: "음압병실, 전실, 자동문, 인터락, 차압계, 너스콜, 사용중 표시등",
+    beforeImage: "/images/kenc-isolation-corridor.webp",
+    gallery: [
+      "/images/kenc-isolation-corridor.webp",
+      "/images/kenc-isolation-room-bed.webp",
+      "/images/kenc-isolation-entry-controls.webp",
+      "/images/kenc-isolation-air-handler.webp",
+    ],
   },
   {
     id: 3,
-    title: "C의료원 중환자실 리모델링",
+    title: "중환자실 청정 구역 사례",
     category: "중환자실",
-    area: "200m\u00B2",
-    duration: "5개월",
-    image: "/images/complete-blue-stainless-cabinet.png",
+    image: "/images/kenc-icu-open-ward.webp",
+    summary: "병상 구역과 간호 스테이션 동선을 고려해 밝고 관리하기 쉬운 중환자실을 구성한 사례입니다.",
+    scope: "병상 구역 마감, 간호 스테이션 주변 동선, 천장 공조, 조명, 위생 마감",
+    beforeImage: "/images/kenc-icu-nurse-station.webp",
+    gallery: [
+      "/images/kenc-icu-open-ward.webp",
+      "/images/kenc-icu-nurse-station.webp",
+      "/images/kenc-icu-clean-zone.webp",
+      "/images/complete-blue-stainless-cabinet.webp",
+    ],
   },
   {
     id: 4,
-    title: "D대학병원 수술실 2실",
+    title: "수술실 패널 시공 과정",
     category: "수술실",
-    area: "120m\u00B2",
-    duration: "3개월",
-    image: "/images/complete-green-monitor.png",
+    image: "/images/kenc-surgery-panel-process.webp",
+    summary: "골조와 천장 구조를 정리한 뒤 클린룸 패널과 설비를 순차 시공한 과정입니다.",
+    scope: "골조 정리, 천장 구조, 벽체 패널, 공조 덕트, 마감 전 점검",
+    beforeImage: "/images/kenc-surgery-structure-before.webp",
+    gallery: [
+      "/images/kenc-surgery-structure-before.webp",
+      "/images/kenc-surgery-panel-process.webp",
+      "/images/construction-floor-primer.webp",
+      "/images/construction-self-leveling.webp",
+    ],
   },
   {
     id: 5,
-    title: "E종합병원 무균실",
-    category: "수술실",
-    area: "60m\u00B2",
-    duration: "2개월",
-    image: "/images/complete-blue-table-equipment.png",
+    title: "클린룸 검증·측정 사례",
+    category: "기타",
+    image: "/images/kenc-validation-pressure-meter.webp",
+    summary: "완공 후 운영 안정성을 확인하기 위해 차압, 소음, 파티클 등 주요 항목을 점검합니다.",
+    scope: "차압 측정, 소음 측정, 파티클 측정, 필터 상태 확인, 설비 기능 점검",
+    beforeImage: "/images/kenc-validation-noise-meter.webp",
+    gallery: [
+      "/images/kenc-validation-pressure-meter.webp",
+      "/images/kenc-validation-noise-meter.webp",
+      "/images/kenc-maintenance-filter-change.webp",
+      "/images/complete-beige-gas-panel.webp",
+    ],
   },
   {
     id: 6,
-    title: "F병원 수술실 확장",
-    category: "수술실",
-    area: "180m\u00B2",
-    duration: "4개월",
-    image: "/images/complete-beige-gas-panel.jpeg",
+    title: "격리실 설비실 구성 사례",
+    category: "격리실",
+    image: "/images/kenc-isolation-wastewater-tanks.webp",
+    summary: "격리실 운영을 위한 폐수탱크, 펌프, 밸브, 배관, 공조기, 배기팬 설비 구성 사례입니다.",
+    scope: "폐수탱크, 펌프, 밸브, 배관, 공조기, 배기팬, 설비실 점검",
+    beforeImage: "/images/kenc-isolation-air-handler.webp",
+    gallery: [
+      "/images/kenc-isolation-wastewater-tanks.webp",
+      "/images/kenc-isolation-air-handler.webp",
+      "/images/kenc-isolation-entry-controls.webp",
+      "/images/kenc-isolation-corridor.webp",
+    ],
   },
 ];
 
 const categories = ["전체", "수술실", "격리실", "중환자실", "기타"];
+const ARCHIVE_PAGE_SIZE = 20;
+
+function SourceArchive({ activeCategory }: { activeCategory: string }) {
+  const [archiveView, setArchiveView] = useState({
+    category: activeCategory,
+    visibleCount: ARCHIVE_PAGE_SIZE,
+  });
+  const archiveItems =
+    activeCategory === "전체"
+      ? attachmentArchive
+      : attachmentArchive.filter((item) => item.category === activeCategory);
+  const visibleCount =
+    archiveView.category === activeCategory
+      ? archiveView.visibleCount
+      : ARCHIVE_PAGE_SIZE;
+  const visibleItems = archiveItems.slice(0, visibleCount);
+  const hasMore = visibleCount < archiveItems.length;
+
+  return (
+    <section className="bg-neutral-50 py-[80px] md:py-[140px]">
+      <Container>
+        <ScrollReveal>
+          <p className="text-sm md:text-base font-medium tracking-[-0.02em] text-primary mb-4 md:mb-6">
+            SOURCE ARCHIVE
+          </p>
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h2 className="text-2xl md:text-[42px] font-bold tracking-[-0.04em] leading-[1.3] text-neutral-900">
+                제공자료 전체 아카이브
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm md:text-base leading-[1.7] tracking-[-0.02em] text-neutral-600">
+                첨부 원본 이미지와 PPT 내부 이미지를 모두 공개용으로 정리한 자료입니다.
+                대표 사례에 쓰지 않은 사진도 카테고리별로 확인할 수 있습니다.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm tracking-[-0.02em] text-neutral-600 md:text-base">
+              <span>전체 {attachmentArchiveSummary.total}건</span>
+              <span>수술실 {attachmentArchiveSummary["수술실"]}건</span>
+              <span>격리실 {attachmentArchiveSummary["격리실"]}건</span>
+              <span>중환자실 {attachmentArchiveSummary["중환자실"]}건</span>
+              <span>기타 {attachmentArchiveSummary["기타"]}건</span>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-12 grid grid-cols-2 gap-4 md:mt-16 md:grid-cols-4 lg:grid-cols-5 md:gap-5">
+          {visibleItems.map((item) => (
+            <article key={item.id} className="bg-white">
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={item.thumbnail}
+                  alt={`${item.title} - ${item.sourceFile}`}
+                  fill
+                  sizes="(min-width: 1440px) 20vw, (min-width: 1080px) 25vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="border border-t-0 border-neutral-200 p-3 md:p-4">
+                <p className="text-[12px] font-bold tracking-[-0.02em] text-neutral-900 md:text-sm">
+                  {item.title}
+                </p>
+                <p className="mt-1 line-clamp-2 text-[11px] leading-[1.5] tracking-[-0.01em] text-neutral-500 md:text-xs">
+                  {item.sourceType} · {item.sourceFile}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {hasMore && (
+          <div className="mt-10 text-center md:mt-14">
+            <button
+              type="button"
+              onClick={() =>
+                setArchiveView({
+                  category: activeCategory,
+                  visibleCount: Math.min(
+                    visibleCount + ARCHIVE_PAGE_SIZE,
+                    archiveItems.length,
+                  ),
+                })
+              }
+              className="rounded-[30px] border border-neutral-800 px-8 py-3 text-sm font-extrabold tracking-[-0.02em] text-neutral-800 transition-colors duration-150 hover:bg-neutral-800 hover:text-white md:px-10 md:py-4 md:text-base"
+            >
+              더보기 {Math.min(visibleCount, archiveItems.length)} /{" "}
+              {archiveItems.length}
+            </button>
+          </div>
+        )}
+      </Container>
+    </section>
+  );
+}
 
 /* ───────────────────────── Arrow SVG ───────────────────────── */
 
@@ -108,10 +252,12 @@ function ProjectCard({
       <div onClick={onClick}>
         {/* Image area */}
         <div className="relative overflow-hidden aspect-[4/3]">
-          <img
+          <Image
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(min-width: 1080px) 50vw, 100vw"
+            className="object-cover"
           />
           {/* Hover overlay */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/70 transition-all duration-100 flex items-center justify-center">
@@ -127,8 +273,8 @@ function ProjectCard({
           <h3 className="mt-3 text-xl md:text-[28px] font-bold tracking-[-0.03em] leading-[1.3]">
             {project.title}
           </h3>
-          <p className="ml-12 mt-1 text-sm md:text-base text-neutral-600 tracking-[-0.02em]">
-            {project.area} | {project.duration}
+          <p className="ml-12 mt-1 text-sm md:text-base text-neutral-600 tracking-[-0.02em] leading-[1.6]">
+            {project.summary}
           </p>
         </div>
       </div>
@@ -193,15 +339,27 @@ function ProjectModal({
         {/* Before / After area */}
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="relative aspect-[4/3]">
-            <img src="/images/construction-demolition.jpeg" alt="시공 전" className="w-full h-full object-cover" />
+            <Image
+              src={project.beforeImage}
+              alt="시공 과정"
+              fill
+              sizes="(min-width: 1080px) 450px, 100vw"
+              className="object-cover"
+            />
             <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-bold px-3 py-1 tracking-[-0.01em]">
-              BEFORE
+              PROCESS
             </span>
           </div>
           <div className="relative aspect-[4/3]">
-            <img src={project.image} alt="시공 후" className="w-full h-full object-cover" />
+            <Image
+              src={project.image}
+              alt="완공 또는 점검 결과"
+              fill
+              sizes="(min-width: 1080px) 450px, 100vw"
+              className="object-cover"
+            />
             <span className="absolute top-4 left-4 bg-black/50 text-white text-xs font-bold px-3 py-1 tracking-[-0.01em]">
-              AFTER
+              RESULT
             </span>
           </div>
         </div>
@@ -217,8 +375,8 @@ function ProjectModal({
             {[
               { label: "프로젝트명", value: project.title },
               { label: "시공 분야", value: project.category },
-              { label: "시공 면적", value: project.area },
-              { label: "시공 기간", value: project.duration },
+              { label: "자료 기준", value: "제공 사진" },
+              { label: "공개 범위", value: "익명 사례" },
             ].map((item) => (
               <div key={item.label}>
                 <p className="text-xs text-neutral-600 tracking-[-0.01em]">
@@ -237,10 +395,13 @@ function ProjectModal({
               시공 범위
             </p>
             <p className="mt-1 text-sm md:text-base tracking-[-0.02em] leading-[1.7] text-neutral-900">
-              클린룸 패널 시공, 공조 시스템 설치, 전기 배선, 의료가스 배관,
-              바닥 에폭시 마감, 자동문 설치
+              {project.scope}
             </p>
           </div>
+
+          <p className="mt-6 text-sm md:text-base tracking-[-0.02em] leading-[1.7] text-neutral-600">
+            {project.summary}
+          </p>
 
           {/* Gallery thumbnails */}
           <div className="mt-8">
@@ -248,18 +409,16 @@ function ProjectModal({
               시공 갤러리
             </p>
             <div className="grid grid-cols-4 gap-3">
-              {[
-                "/images/construction-demolition.jpeg",
-                "/images/construction-floor-primer.jpeg",
-                "/images/construction-self-leveling.jpeg",
-                project.image,
-              ].map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt={`시공 과정 ${i + 1}`}
-                  className="aspect-square object-cover"
-                />
+              {project.gallery.map((src, i) => (
+                <div key={i} className="relative aspect-square">
+                  <Image
+                    src={src}
+                    alt={`시공 과정 ${i + 1}`}
+                    fill
+                    sizes="(min-width: 1080px) 100px, 25vw"
+                    className="object-cover"
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -295,7 +454,14 @@ export default function PortfolioPage() {
       {/* ── Hero ── */}
       <section className="relative bg-primary-dark pt-[120px] pb-[80px] md:pt-[200px] md:pb-[120px]">
         <div className="absolute inset-0">
-          <img src="/images/complete-blue-panorama.jpeg" alt="" className="h-full w-full object-cover" />
+          <Image
+            src="/images/complete-blue-panorama.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
         <div className="absolute inset-0 bg-primary-dark/75" />
         <Container className="relative z-10">
@@ -307,7 +473,7 @@ export default function PortfolioPage() {
               시공사례
             </h1>
             <p className="mt-4 text-lg md:text-xl text-neutral-400 tracking-[-0.02em] leading-[1.7]">
-              완벽한 시공, 눈으로 확인하세요
+              제공 사진으로 확인하는 시공 과정과 완공 품질
             </p>
           </ScrollReveal>
         </Container>
@@ -349,6 +515,40 @@ export default function PortfolioPage() {
           </StaggerContainer>
         </Container>
       </section>
+
+      {/* ── SEO: 상세 사례 게시글 링크 ── */}
+      <section className="py-[80px] md:py-[140px] bg-white">
+        <Container>
+          <ScrollReveal>
+            <p className="text-sm md:text-base font-medium tracking-[-0.02em] text-primary mb-4 md:mb-6">
+              CASE REVIEWS
+            </p>
+            <h2 className="text-2xl md:text-[42px] font-bold tracking-[-0.04em] leading-[1.3] text-neutral-900 mb-10 md:mb-14">
+              시공 사례 상세 후기
+            </h2>
+          </ScrollReveal>
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {caseStudies.map((study) => (
+              <StaggerItem key={study.slug}>
+                <Link
+                  href={`/portfolio/${study.slug}`}
+                  className="block bg-neutral-50 p-8 md:p-10 h-full hover:bg-neutral-100 transition-colors duration-150"
+                >
+                  <div className="w-8 h-0.5 bg-accent mb-5" />
+                  <h3 className="text-lg md:text-xl font-bold tracking-[-0.03em] text-neutral-900 mb-3">
+                    {study.title}
+                  </h3>
+                  <p className="text-sm md:text-base leading-[1.7] tracking-[-0.02em] text-neutral-600">
+                    {study.summary}
+                  </p>
+                </Link>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </Container>
+      </section>
+
+      <SourceArchive activeCategory={activeCategory} />
 
       {/* ── Bottom CTA ── */}
       <section className="bg-neutral-100 py-[80px] md:py-[140px]">

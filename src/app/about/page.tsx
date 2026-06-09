@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import Container from "@/components/Container";
 import ScrollReveal, {
@@ -28,18 +29,24 @@ const coreValues = [
 ];
 
 const timeline = [
-  { year: "2003", text: "병원 클린룸 시공 경력 시작" },
-  { year: "2010", text: "대형 종합병원 수술실 시공 참여" },
-  { year: "2015", text: "누적 시공 100건 돌파" },
-  { year: "2020", text: "BCR 클린룸 특화 기술 확립" },
-  { year: "2023", text: "코리아이앤씨 법인 설립" },
-  { year: "2024", text: "다수 대학병원 프로젝트 수행" },
+  { year: "20년+", text: "수술실, 중환자실, 격리실 클린룸 현장 경험 축적" },
+  { year: "2023.04", text: "코리아이앤씨 설립" },
+  { year: "현재", text: "병원 클린룸 설계·시공 및 시설물 유지관리 수행" },
 ];
 
-const certifications = [
-  "건설업면허(예정)",
-  "ISO인증(예정)",
-  "전문건설업등록(예정)",
+const companyFacts = [
+  { label: "회사명", value: "코리아이앤씨" },
+  { label: "대표이사", value: "남기태" },
+  { label: "관리이사", value: "남언우" },
+  { label: "업태", value: "건설업" },
+  {
+    label: "주요 업종",
+    value: "클린룸 공사, 시설물유지관리, 건축 마무리, 건물 및 구축물 해체",
+  },
+  {
+    label: "시공 분야",
+    value: "수술실, 무균실, 중환자실, 격리실 외 병원 클린룸",
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -52,7 +59,14 @@ export default function AboutPage() {
       {/* ── 1. Page Hero ────────────────────────────────────────── */}
       <section className="relative flex min-h-[420px] items-center justify-center md:min-h-[520px]">
         <div className="absolute inset-0">
-          <img src="/images/complete-blue-table-equipment.png" alt="" className="h-full w-full object-cover" />
+          <Image
+            src="/images/complete-blue-table-equipment.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
         <div className="absolute inset-0 bg-primary-dark/70" />
         <div className="relative z-10 text-center">
@@ -101,8 +115,34 @@ export default function AboutPage() {
         </Container>
       </section>
 
+      {/* ── 3. Company Facts ───────────────────────────────────── */}
+      <section className="bg-neutral-50 py-[80px] md:py-[140px]">
+        <Container>
+          <ScrollReveal>
+            <h2 className="mb-12 text-center text-[24px] font-bold tracking-[-0.04em] text-neutral-900 md:mb-20 md:text-[42px]">
+              회사 기본정보
+            </h2>
+          </ScrollReveal>
+
+          <StaggerContainer className="grid gap-0 border-t border-neutral-200 md:grid-cols-2">
+            {companyFacts.map((fact) => (
+              <StaggerItem key={fact.label}>
+                <div className="border-b border-neutral-200 py-6 md:px-8 md:py-8">
+                  <p className="text-[13px] font-bold tracking-[-0.02em] text-primary md:text-[14px]">
+                    {fact.label}
+                  </p>
+                  <p className="mt-2 text-[16px] leading-[1.7] tracking-[-0.02em] text-neutral-900 md:text-[18px]">
+                    {fact.value}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </Container>
+      </section>
+
       {/* ── 3. CEO Message ──────────────────────────────────────── */}
-      <section className="bg-neutral-50 py-[80px] md:py-[160px]">
+      <section className="py-[80px] md:py-[160px]">
         <Container>
           <ScrollReveal>
             <h2 className="mb-12 text-center text-[24px] font-bold tracking-[-0.04em] text-neutral-900 md:mb-20 md:text-[42px]">
@@ -115,12 +155,13 @@ export default function AboutPage() {
               <div>
                 <div className="mb-6 h-[2px] w-12 bg-accent mx-auto md:mx-0" />
                 <blockquote className="text-center text-[16px] leading-[1.8] tracking-[-0.02em] text-neutral-900 md:text-left md:text-[18px]">
-                  &ldquo;항상 최선을 다하며, 정직하고 맡은 바 끝까지 책임을 다하는
-                  코리아이앤씨가 되도록 노력하고 있습니다.
+                  &ldquo;코리아이앤씨는 BCR 클린룸을 전문으로 설계·시공하며
+                  수술실, 무균실, 중환자실, 격리실 현장에서 쌓은 경험을 바탕으로
+                  병원 환경에 맞는 공사를 수행합니다.
                   <br />
                   <br />
-                  20년 이상의 현장 경험을 바탕으로 병원 내 클린룸 환경을
-                  전문적으로 설계하고 시공합니다.&rdquo;
+                  항상 최선을 다하며, 정직하고 맡은 바 끝까지 책임을 다하는
+                  회사가 되겠습니다.&rdquo;
                 </blockquote>
                 <p className="mt-8 text-center text-[14px] font-bold tracking-[-0.02em] text-neutral-900 md:text-left md:text-[16px]">
                   남기태

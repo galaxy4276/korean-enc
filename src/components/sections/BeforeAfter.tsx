@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Container from "@/components/Container";
 import ScrollReveal from "@/components/ScrollReveal";
 import Link from "next/link";
@@ -8,25 +9,37 @@ export default function BeforeAfter() {
       <Container>
         <ScrollReveal>
           <h2 className="text-[24px] font-bold tracking-[-0.04em] text-neutral-900 md:text-[42px]">
-            시공 사례
+            시공 과정과 완공 품질
           </h2>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
           <div className="mt-12 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-8">
-            {/* Before */}
-            <div className="relative">
-              <img src="/images/construction-demolition.jpeg" alt="시공 전 철거 현장" className="aspect-[4/3] w-full object-cover" />
+            {/* Process */}
+            <div className="relative aspect-[4/3]">
+              <Image
+                src="/images/kenc-surgery-structure-before.webp"
+                alt="수술실 구조 시공 과정"
+                fill
+                sizes="(min-width: 1080px) 50vw, 100vw"
+                className="object-cover"
+              />
               <span className="absolute top-4 left-4 bg-[#dc3545] px-4 py-1.5 text-[12px] font-bold tracking-[-0.01em] text-white">
-                BEFORE
+                PROCESS
               </span>
             </div>
 
-            {/* After */}
-            <div className="relative">
-              <img src="/images/complete-beige-twin-lamps.jpeg" alt="완공된 수술실" className="aspect-[4/3] w-full object-cover" />
+            {/* Result */}
+            <div className="relative aspect-[4/3]">
+              <Image
+                src="/images/kenc-surgery-complete-white.webp"
+                alt="완공된 수술실"
+                fill
+                sizes="(min-width: 1080px) 50vw, 100vw"
+                className="object-cover"
+              />
               <span className="absolute top-4 left-4 bg-[#28a745] px-4 py-1.5 text-[12px] font-bold tracking-[-0.01em] text-white">
-                AFTER
+                RESULT
               </span>
             </div>
           </div>
@@ -39,12 +52,12 @@ export default function BeforeAfter() {
               <span className="mt-2.5 block h-[3px] w-[48px] shrink-0 bg-accent" />
               <div>
                 <h3 className="text-[20px] font-bold tracking-[-0.03em] text-neutral-900 md:text-[28px]">
-                  OO병원 수술실 클린룸 시공
+                  수술실 클린룸 시공 사례
                 </h3>
                 <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[14px] tracking-[-0.02em] text-neutral-600 md:text-[16px]">
-                  <span>OO병원</span>
-                  <span>120m&sup2;</span>
-                  <span>4주</span>
+                  <span>골조 정리</span>
+                  <span>패널·천장 시공</span>
+                  <span>완공 점검</span>
                 </div>
               </div>
             </div>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Container from "./Container";
 
 const NAV_LINKS = [
@@ -15,12 +16,20 @@ export default function Footer() {
           {/* Left: Company info */}
           <div className="space-y-4">
             <p className="flex items-center text-lg font-bold tracking-[-0.03em]">
-              <img src="/logo-icon.png" alt="" width={24} height={24} className="block brightness-0 invert" />
+              <Image
+                src="/logo-icon.png"
+                alt=""
+                width={24}
+                height={24}
+                className="block brightness-0 invert"
+              />
               코리아이앤씨
             </p>
             <div className="space-y-1 text-sm text-neutral-400 tracking-[-0.02em] leading-relaxed">
               <p>경기도 화성시 정남면 보통리 78-1</p>
-              <p>대표: 남기태 | 사업자번호: 830-01-03365</p>
+              <p>대표: 남기태 | 관리이사: 남언우</p>
+              <p>사업자번호: 830-01-03365 | 업태: 건설업</p>
+              <p>업종: 클린룸 공사, 시설물유지관리, 건축 마무리</p>
               <p>koreaencgo@nate.com</p>
             </div>
           </div>

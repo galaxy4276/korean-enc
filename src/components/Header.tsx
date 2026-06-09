@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 
 const NAV_ITEMS = [
@@ -44,13 +46,13 @@ export default function Header() {
       >
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-5 md:px-[90px] lg:px-[180px]">
           {/* Logo */}
-          <a
+          <Link
             href="/"
             className={`flex items-center text-lg font-bold tracking-[-0.04em] transition-all duration-300 ${
               scrolled ? "text-primary-dark" : "text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]"
             }`}
           >
-            <img
+            <Image
               src="/logo-icon.png"
               alt=""
               width={28}
@@ -60,12 +62,12 @@ export default function Header() {
               }`}
             />
             코리아이앤씨
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
             {NAV_ITEMS.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-medium tracking-[-0.02em] transition-all duration-300 ${
@@ -75,7 +77,7 @@ export default function Header() {
                 }`}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <a
               href="tel:010-8115-0500"
@@ -127,14 +129,14 @@ export default function Header() {
           >
             <nav className="flex flex-col items-center gap-10">
               {NAV_ITEMS.map((item) => (
-                <a
+                <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
                   className="text-2xl font-bold tracking-[-0.04em] text-neutral-900 transition-colors duration-150 hover:text-primary"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
               <a
                 href="tel:010-8115-0500"

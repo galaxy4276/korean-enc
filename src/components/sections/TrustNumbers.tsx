@@ -53,7 +53,7 @@ function CountUp({
 
 const stats = [
   { target: 20, suffix: "년+", label: "현장 경험" },
-  { target: 100, suffix: "%", label: "책임 준공" },
+  { target: 2023, suffix: ".04", label: "법인 설립" },
 ];
 
 export default function TrustNumbers() {
