@@ -1,0 +1,2 @@
+lead_id,org_name,segment,priority,status,region,department_or_specialty,decision_maker_role,website,phone,email,source,need_signal,last_contacted_at,next_action_at,opt_in_status,do_not_contact,notes
+L0001,샘플 성형외과,opening_clinic,A,new,서울 강남구,성형외과,병원장,https://example.com,02-000-0000,,네이버지도,개원/수술실 가능성,,,unknown,false,예시 행 - 실제 운영 시 삭제
