@@ -9,8 +9,13 @@ export default function BeforeAfter() {
       <Container>
         <ScrollReveal>
           <h2 className="text-[24px] font-bold tracking-[-0.04em] text-neutral-900 md:text-[42px]">
-            시공 과정과 완공 품질
+            사진으로 보는 시공 범위
           </h2>
+          <p className="mt-5 max-w-3xl text-[14px] leading-[1.8] text-neutral-600 md:text-[16px]">
+            견적 상담에서는 완공 사진뿐 아니라 어떤 범위까지 시공되는지
+            확인하는 것이 중요합니다. 벽체, 천장, 공조, 조명, 의료 설비,
+            검증 항목을 분리해 공사 범위를 정리합니다.
+          </p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
@@ -57,7 +62,8 @@ export default function BeforeAfter() {
                 <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[14px] tracking-[-0.02em] text-neutral-600 md:text-[16px]">
                   <span>골조 정리</span>
                   <span>패널·천장 시공</span>
-                  <span>완공 점검</span>
+                  <span>공조·의료 설비</span>
+                  <span>차압·소음 점검</span>
                 </div>
               </div>
             </div>

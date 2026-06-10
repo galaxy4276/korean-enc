@@ -10,25 +10,25 @@ const services = [
   {
     title: "수술실",
     description:
-      "설계 검토부터 패널, 천장, 공조, 의료가스 설비까지 수술실 공정을 통합 시공합니다.",
+      "양압 유지, HEPA 급기, 의료가스 배관, 수술등·장비 동선을 함께 검토합니다.",
     image: "/images/kenc-surgery-complete-white.webp",
   },
   {
     title: "격리실",
     description:
-      "음압병실, 전실, 차압계, 인터락, 폐수·배기 설비까지 격리 동선을 체계화합니다.",
+      "음압병실, 전실, 차압계, 인터락, 배기·폐수 설비까지 격리 동선을 체계화합니다.",
     image: "/images/kenc-isolation-corridor.webp",
   },
   {
     title: "중환자실",
     description:
-      "병상 구역과 간호 스테이션 동선을 고려해 청정하고 관리하기 쉬운 공간을 만듭니다.",
+      "병상 구역, 간호 스테이션, 공조·조명·위생 마감을 운영 동선에 맞춰 정리합니다.",
     image: "/images/kenc-icu-nurse-station.webp",
   },
   {
     title: "시설 유지보수",
     description:
-      "필터 교체, 차압·소음 측정, 팬 점검 등 시공 이후 운영 상태까지 확인합니다.",
+      "필터 교체, 차압·소음 확인, 팬 점검 등 시공 이후 운영 상태를 점검합니다.",
     image: "/images/kenc-maintenance-filter-change.webp",
   },
 ];
@@ -39,8 +39,13 @@ export default function ServiceOverview() {
       <Container>
         <ScrollReveal>
           <h2 className="text-[24px] font-bold tracking-[-0.04em] text-neutral-900 md:text-[42px]">
-            전문 시공 분야
+            병원 공간별로 달라지는 시공 기준
           </h2>
+          <p className="mt-5 max-w-3xl text-[14px] leading-[1.8] text-neutral-600 md:text-[16px]">
+            같은 클린룸이라도 수술실, 격리실, 중환자실은 공기 흐름과 설비
+            기준이 다릅니다. 상담 단계에서 공간 목적을 먼저 확인하고 필요한
+            공정만 분리해 안내합니다.
+          </p>
         </ScrollReveal>
 
         <StaggerContainer className="mt-12 grid grid-cols-1 gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-4 md:gap-6">

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
+import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 import Container from "@/components/Container";
 
@@ -35,7 +36,7 @@ function CountUp({ target, suffix, label }: { target: number; suffix: string; la
       transition={{ duration: 0.6 }}
       className="text-center"
     >
-      <div className="text-[48px] font-black tracking-[-0.04em] text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] md:text-[56px]">
+      <div className="whitespace-nowrap text-[48px] font-black tracking-[-0.04em] text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] md:text-[56px]">
         {count}
         <span className="text-[24px] text-accent md:text-[28px]">{suffix}</span>
       </div>
@@ -52,7 +53,7 @@ function TrustFact({ value, label }: { value: string; label: string }) {
       transition={{ duration: 0.6, delay: 0.2 }}
       className="text-center"
     >
-      <div className="text-[48px] font-black tracking-[-0.04em] text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] md:text-[56px]">
+      <div className="whitespace-nowrap text-[48px] font-black tracking-[-0.04em] text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] md:text-[56px]">
         {value}
       </div>
       <div className="mt-2 text-[13px] font-medium tracking-[-0.02em] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
@@ -92,18 +93,19 @@ export default function HeroSection() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.1}>
-              <h1 className="text-[36px] leading-[1.25] font-black tracking-[-0.04em] text-white md:text-[48px]">
-                수술실 시공 20년,
+              <h1 className="text-[36px] leading-[1.25] font-black text-white md:text-[48px]">
+                수술실·음압격리실,
                 <br />
-                현장이 다르면
+                설계 검토부터
                 <br />
-                결과가 다릅니다
+                검증까지 한 번에
               </h1>
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <p className="mt-5 text-[16px] font-medium leading-[1.7] tracking-[-0.02em] text-white/85 md:mt-6 md:text-[17px]">
-                설계부터 유지보수까지 책임 시공
+              <p className="mt-5 max-w-[560px] text-[16px] font-medium leading-[1.7] text-white/85 md:mt-6 md:text-[17px]">
+                현장 실측 후 공조·차압·마감·철거 범위를 나눠 견적하고,
+                완공 후 차압·소음·필터 상태까지 확인합니다.
               </p>
             </ScrollReveal>
 
@@ -115,12 +117,12 @@ export default function HeroSection() {
                 >
                   무료 상담 신청
                 </a>
-                <a
+                <Link
                   href="/portfolio"
                   className="inline-flex items-center rounded-[30px] border-2 border-white/50 px-8 py-4 text-[15px] font-extrabold tracking-[-0.02em] text-white transition-all duration-150 hover:border-white hover:bg-white/10 md:text-[16px]"
                 >
                   시공사례 보기
-                </a>
+                </Link>
               </div>
             </ScrollReveal>
           </div>
