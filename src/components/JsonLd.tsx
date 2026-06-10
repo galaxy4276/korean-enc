@@ -1,5 +1,5 @@
 export default function JsonLd() {
-  const siteUrl = "https://koreanenc.vercel.app";
+  const siteUrl = "https://www.korea-enc.co.kr";
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

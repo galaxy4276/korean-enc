@@ -1,4 +1,4 @@
-export const SITE_URL = "https://koreanenc.vercel.app";
+export const SITE_URL = "https://www.korea-enc.co.kr";
 
 function toAbsoluteImageUrl(path: string): string {
   if (path.startsWith("http://") || path.startsWith("https://")) {

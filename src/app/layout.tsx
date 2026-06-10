@@ -6,7 +6,7 @@ import FloatingCTA from "@/components/FloatingCTA";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import JsonLd from "@/components/JsonLd";
 
-const SITE_URL = "https://koreanenc.vercel.app";
+const SITE_URL = "https://www.korea-enc.co.kr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
