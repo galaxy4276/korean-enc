@@ -81,6 +81,9 @@ export default function Header() {
             ))}
             <a
               href="tel:010-8115-0500"
+              data-analytics-event="phone_click"
+              data-analytics-source="header_desktop"
+              data-analytics-label="전화상담"
               className={`rounded-full px-5 py-2 text-sm font-bold tracking-[-0.02em] transition-all duration-300 ease-in-out ${
                 scrolled
                   ? "bg-primary text-white hover:bg-primary-light"
@@ -141,6 +144,9 @@ export default function Header() {
               <a
                 href="tel:010-8115-0500"
                 onClick={() => setMenuOpen(false)}
+                data-analytics-event="phone_click"
+                data-analytics-source="header_mobile_menu"
+                data-analytics-label="전화상담"
                 className="mt-4 rounded-full bg-primary px-8 py-3 text-lg font-bold tracking-[-0.02em] text-white transition-all duration-150 ease-in-out hover:bg-primary-light"
               >
                 전화상담

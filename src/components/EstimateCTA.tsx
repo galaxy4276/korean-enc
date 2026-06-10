@@ -24,6 +24,9 @@ export default function EstimateCTA({
           <div className="flex flex-col sm:flex-row gap-4 mt-2">
             <a
               href="tel:010-8115-0500"
+              data-analytics-event="phone_click"
+              data-analytics-source="estimate_cta"
+              data-analytics-label="전화 상담"
               className="inline-flex items-center justify-center gap-2 bg-neutral-800 text-white px-8 py-4 rounded-[30px] font-extrabold hover:bg-white hover:text-neutral-800 border border-neutral-800 transition-all duration-200"
             >
               <svg
@@ -45,6 +48,9 @@ export default function EstimateCTA({
 
             <Link
               href="/contact"
+              data-analytics-event="contact_cta_click"
+              data-analytics-source="estimate_cta"
+              data-analytics-label="무료 상담 신청"
               className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-8 py-4 rounded-[30px] font-extrabold border border-white hover:bg-white hover:text-primary-dark transition-all duration-200"
             >
               무료 상담 신청

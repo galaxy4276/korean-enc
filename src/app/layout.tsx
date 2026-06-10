@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import JsonLd from "@/components/JsonLd";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const SITE_URL = "https://www.korea-enc.co.kr";
 
@@ -128,6 +129,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className="bg-white antialiased">
+        <GoogleAnalytics />
         <Header />
         <main>{children}</main>
         <Footer />

@@ -113,6 +113,9 @@ export default function HeroSection() {
               <div className="mt-8 flex flex-wrap gap-4 md:mt-10">
                 <a
                   href="tel:010-8115-0500"
+                  data-analytics-event="phone_click"
+                  data-analytics-source="landing_hero"
+                  data-analytics-label="무료 상담 신청"
                   className="inline-flex items-center rounded-[30px] bg-primary px-8 py-4 text-[15px] font-extrabold tracking-[-0.02em] text-white transition-all duration-150 hover:bg-primary-light md:text-[16px]"
                 >
                   무료 상담 신청

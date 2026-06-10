@@ -29,6 +29,9 @@ export default function StickyMobileCTA() {
     >
       <a
         href="tel:010-8115-0500"
+        data-analytics-event="phone_click"
+        data-analytics-source="sticky_mobile_cta"
+        data-analytics-label="전화하기"
         className="flex-1 flex items-center justify-center gap-2 bg-primary py-4 text-white font-bold text-base tracking-[-0.02em]"
       >
         <svg
@@ -48,6 +51,9 @@ export default function StickyMobileCTA() {
       </a>
       <a
         href="/contact"
+        data-analytics-event="contact_cta_click"
+        data-analytics-source="sticky_mobile_cta"
+        data-analytics-label="문의하기"
         className="flex-1 flex items-center justify-center gap-2 bg-accent py-4 text-neutral-900 font-bold text-base tracking-[-0.02em]"
       >
         문의하기

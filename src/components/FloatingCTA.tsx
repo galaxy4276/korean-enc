@@ -4,6 +4,9 @@ export default function FloatingCTA() {
   return (
     <a
       href="tel:010-8115-0500"
+      data-analytics-event="phone_click"
+      data-analytics-source="floating_desktop_cta"
+      data-analytics-label="전화상담"
       className="fixed right-7 bottom-7 z-50 hidden md:flex items-center gap-2 rounded-full bg-neutral-800 px-6 py-3 text-white font-extrabold tracking-[-0.02em] transition-all duration-150 ease-in-out hover:bg-white hover:text-neutral-800 hover:shadow-lg"
       aria-label="전화 상담 010-8115-0500"
     >

@@ -12,6 +12,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import Container from "@/components/Container";
 import ScrollReveal from "@/components/ScrollReveal";
+import { trackEvent } from "@/lib/analytics";
 
 const CONSTRUCTION_TYPES = [
   "수술실",
@@ -286,7 +287,31 @@ export default function ContactPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setSubmitError("");
-    if (!validate()) return;
+    if (!validate()) {
+      const missingFields = [
+        !formData.organization.trim() ? "organization" : "",
+        !formData.contactPerson.trim() ? "contact_person" : "",
+        !formData.phone.trim() ? "phone" : "",
+      ]
+        .filter(Boolean)
+        .join(",");
+
+      trackEvent("contact_form_validation_error", {
+        source: "contact_page",
+        missing_fields: missingFields,
+        has_email_format_error: Boolean(
+          formData.email.trim() &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+        ),
+      });
+      return;
+    }
+
+    trackEvent("contact_form_submit_attempt", {
+      source: "contact_page",
+      has_email: Boolean(formData.email.trim()),
+      construction_type_count: formData.constructionTypes.length,
+    });
 
     const payload = {
       recipients: CONTACT_RECIPIENTS,
@@ -300,6 +325,16 @@ export default function ContactPage() {
     };
 
     if (!CONTACT_FORM_ENDPOINT) {
+      trackEvent("generate_lead", {
+        source: "contact_page",
+        method: "mailto",
+        transport_type: "beacon",
+      });
+      trackEvent("contact_form_submit", {
+        source: "contact_page",
+        method: "mailto",
+        transport_type: "beacon",
+      });
       window.location.href = buildMailtoUrl(formData);
       setSubmitStatus("mailto");
       return;
@@ -321,7 +356,19 @@ export default function ContactPage() {
 
       setSubmitStatus("sent");
       setFormData(initialFormData);
+      trackEvent("generate_lead", {
+        source: "contact_page",
+        method: "endpoint",
+      });
+      trackEvent("contact_form_submit", {
+        source: "contact_page",
+        method: "endpoint",
+      });
     } catch {
+      trackEvent("contact_form_error", {
+        source: "contact_page",
+        method: "endpoint",
+      });
       setSubmitError(
         "문의 전송에 실패했습니다. 잠시 후 다시 시도하시거나 전화로 문의해주세요."
       );
@@ -630,6 +677,9 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
+                      data-analytics-event="contact_form_button_click"
+                      data-analytics-source="contact_page"
+                      data-analytics-label="문의 보내기"
                       className="w-full py-4 bg-neutral-800 text-white text-[16px] md:text-[18px] font-[800] tracking-[-0.02em] rounded-[30px] transition-all duration-150 hover:bg-white hover:text-neutral-800 border-2 border-neutral-800 cursor-pointer disabled:cursor-wait disabled:border-neutral-400 disabled:bg-neutral-400 disabled:hover:text-white"
                     >
                       {isSubmitting ? "전송 중" : "문의 보내기"}
@@ -654,6 +704,9 @@ export default function ContactPage() {
                   </p>
                   <a
                     href={`tel:${OFFICE.phone}`}
+                    data-analytics-event="phone_click"
+                    data-analytics-source="contact_page_info"
+                    data-analytics-label="전화번호"
                     className="text-[28px] md:text-[36px] font-bold tracking-[-0.04em] text-neutral-900 hover:text-primary transition-colors duration-150"
                   >
                     {OFFICE.phone}

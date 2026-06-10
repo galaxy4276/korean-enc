@@ -16,6 +16,9 @@ export default function FinalCTA() {
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-12">
               <a
                 href="tel:010-8115-0500"
+                data-analytics-event="phone_click"
+                data-analytics-source="landing_final_cta"
+                data-analytics-label="전화 상담"
                 className="inline-flex items-center gap-3 rounded-[30px] bg-primary px-8 py-4 text-[16px] font-extrabold tracking-[-0.02em] text-white transition-all duration-150 hover:bg-primary-light md:text-[18px]"
               >
                 <svg
@@ -37,6 +40,9 @@ export default function FinalCTA() {
               </a>
               <a
                 href="/contact"
+                data-analytics-event="contact_cta_click"
+                data-analytics-source="landing_final_cta"
+                data-analytics-label="온라인 문의"
                 className="inline-flex items-center gap-3 rounded-[30px] border-2 border-white/40 px-8 py-4 text-[16px] font-extrabold tracking-[-0.02em] text-white transition-all duration-150 hover:border-white hover:bg-white/10 md:text-[18px]"
               >
                 <svg
