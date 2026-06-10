@@ -248,7 +248,7 @@ function ProjectCard({
   onClick: () => void;
 }) {
   return (
-    <StaggerItem className="cursor-pointer group" y={30}>
+    <div className="cursor-pointer group">
       <div onClick={onClick}>
         {/* Image area */}
         <div className="relative overflow-hidden aspect-[4/3]">
@@ -278,7 +278,7 @@ function ProjectCard({
           </p>
         </div>
       </div>
-    </StaggerItem>
+    </div>
   );
 }
 
@@ -504,7 +504,7 @@ export default function PortfolioPage() {
           </ScrollReveal>
 
           {/* ── Project Grid ── */}
-          <StaggerContainer className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+          <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
             {filteredProjects.map((project) => (
               <ProjectCard
                 key={project.id}
@@ -512,7 +512,7 @@ export default function PortfolioPage() {
                 onClick={() => setSelectedProject(project)}
               />
             ))}
-          </StaggerContainer>
+          </div>
         </Container>
       </section>
 
