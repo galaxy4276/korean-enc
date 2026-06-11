@@ -367,7 +367,7 @@ const relatedLinks = [
   },
   {
     href: "/portfolio/negative-pressure-room-construction-review",
-    title: "음압격리실 시공 후기",
+    title: "음압격리실 시공 사례",
     description: "음압격리병실 설치 사례",
   },
 ];

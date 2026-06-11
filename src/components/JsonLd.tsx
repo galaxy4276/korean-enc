@@ -128,28 +128,6 @@ export default function JsonLd() {
           "@id": `${siteUrl}/#business`,
         },
       },
-      {
-        "@type": "FAQPage",
-        "@id": `${siteUrl}/#faq`,
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: "코리아이앤씨는 어떤 클린룸을 시공하나요?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "코리아이앤씨는 병원 BCR 클린룸을 중심으로 수술실 클린룸, 중환자실, 음압격리실, 무균실 시공과 유지보수를 수행합니다.",
-            },
-          },
-          {
-            "@type": "Question",
-            name: "병원 클린룸 시공 비용 상담은 어떻게 신청하나요?",
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: "전화 010-8115-0500 또는 문의하기 페이지의 온라인 폼으로 현장 실측 기반 비용 상담과 시공순서 안내를 신청할 수 있습니다.",
-            },
-          },
-        ],
-      },
     ],
   };
 

@@ -5,12 +5,17 @@ import BeforeAfter from "@/components/sections/BeforeAfter";
 import ProcessTimeline from "@/components/sections/ProcessTimeline";
 import ValidationGuide from "@/components/sections/ValidationGuide";
 import CeoQuote from "@/components/sections/CeoQuote";
-import LandingFAQ from "@/components/sections/LandingFAQ";
+import LandingFAQ, { landingFaqs } from "@/components/sections/LandingFAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
+import PageJsonLd from "@/components/PageJsonLd";
+import { faqSchema } from "@/lib/structuredData";
+
+const jsonLdSchemas = [faqSchema("", landingFaqs)];
 
 export default function Home() {
   return (
     <>
+      <PageJsonLd schemas={jsonLdSchemas} />
       <HeroSection />
       <EstimateChecklist />
       <ServiceOverview />

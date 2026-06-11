@@ -31,9 +31,8 @@
 | `/images/kenc-isolation-entry-controls.webp` | 격리실 출입통제/차압계 갤러리 |
 | `/images/kenc-isolation-wastewater-tanks.webp` | 격리실 설비실 사례 |
 | `/images/kenc-isolation-air-handler.webp` | 격리실 공조기 사례 |
-| `/images/kenc-validation-pressure-meter.webp` | 검증·측정 대표 사례 |
-| `/images/kenc-validation-noise-meter.webp` | 소음 측정 갤러리 |
 | `/images/kenc-maintenance-filter-change.webp` | 유지보수 서비스 카드 |
+| `/images/bcr-airquality.webp` | 검증·공기 청정도 카드/갤러리 |
 
 ## 아카이브 처리
 

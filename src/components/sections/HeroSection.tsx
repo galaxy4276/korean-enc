@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 import Container from "@/components/Container";
@@ -9,10 +10,12 @@ import Container from "@/components/Container";
 function CountUp({ target, suffix, label }: { target: number; suffix: string; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const reduce = useReducedMotion();
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!isInView) return;
+    // 모션 민감 유저에게는 카운트 애니메이션을 건너뛴다 (최종값은 렌더에서 표시).
+    if (!isInView || reduce) return;
     let start = 0;
     const duration = 2000;
     const step = Math.ceil(target / (duration / 16));
@@ -26,7 +29,7 @@ function CountUp({ target, suffix, label }: { target: number; suffix: string; la
       }
     }, 16);
     return () => clearInterval(timer);
-  }, [isInView, target]);
+  }, [isInView, target, reduce]);
 
   return (
     <motion.div
@@ -37,7 +40,7 @@ function CountUp({ target, suffix, label }: { target: number; suffix: string; la
       className="text-center"
     >
       <div className="whitespace-nowrap text-[48px] font-black tracking-[-0.04em] text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] md:text-[56px]">
-        {count}
+        {reduce ? target : count}
         <span className="text-[24px] text-accent md:text-[28px]">{suffix}</span>
       </div>
       <div className="mt-2 text-[13px] font-medium tracking-[-0.02em] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">{label}</div>
@@ -46,20 +49,51 @@ function CountUp({ target, suffix, label }: { target: number; suffix: string; la
 }
 
 export default function HeroSection() {
+  // LCP는 poster 이미지가 담당하고, 비디오는 idle 시점에 deferred 로드해 초기 렌더를 막지 않는다.
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [videoReady, setVideoReady] = useState(false);
+
+  useEffect(() => {
+    const load = () => setVideoSrc("/hero-video.mp4");
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(load, { timeout: 2500 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = setTimeout(load, 1200);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <section className="relative flex min-h-[480px] items-center overflow-hidden md:min-h-[70vh]">
-      {/* Background video with image fallback */}
+      {/* Background: poster image (LCP) + deferred video overlay */}
       <div className="absolute inset-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/images/complete-beige-twin-lamps.webp"
-          className="h-full w-full object-cover"
-        >
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
+        <Image
+          src="/images/complete-beige-twin-lamps.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        {videoSrc && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            onCanPlay={() => setVideoReady(true)}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+              videoReady ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        )}
       </div>
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-[rgba(13,27,42,0.6)]" />
@@ -103,12 +137,21 @@ export default function HeroSection() {
                   무료 상담 신청
                 </a>
                 <Link
-                  href="/portfolio"
+                  href="/contact"
+                  data-analytics-event="contact_cta_click"
+                  data-analytics-source="landing_hero"
+                  data-analytics-label="견적 문의하기"
                   className="inline-flex items-center rounded-[30px] border-2 border-white/50 px-8 py-4 text-[15px] font-extrabold tracking-[-0.02em] text-white transition-all duration-150 hover:border-white hover:bg-white/10 md:text-[16px]"
                 >
-                  시공사례 보기
+                  견적 문의하기
                 </Link>
               </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.4}>
+              <p className="mt-4 text-[13px] tracking-[-0.02em] text-white/70 drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
+                상담·견적 비용 없음 · 영업일 1일 내 회신
+              </p>
             </ScrollReveal>
           </div>
 

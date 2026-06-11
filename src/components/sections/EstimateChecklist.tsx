@@ -52,8 +52,8 @@ export default function EstimateChecklist() {
             Estimate Guide
           </p>
           <div className="grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-end md:gap-16">
-            <h2 className="text-[24px] font-bold leading-[1.3] text-neutral-900 md:text-[42px]">
-              견적 전에 확인해야 할 6가지
+            <h2 className="text-[24px] font-bold tracking-[-0.04em] leading-[1.3] text-neutral-900 md:text-[42px]">
+              현장 상황에 맞는 견적은 여기서 시작됩니다
             </h2>
             <p className="text-[14px] leading-[1.8] text-neutral-600 md:text-[16px]">
               병원 클린룸은 단순 평당 단가로 결정하기 어렵습니다. 같은 면적이라도

@@ -132,6 +132,20 @@ function buildMailtoUrl(formData: FormData) {
   return `mailto:${CONTACT_RECIPIENTS.join(",")}?${params.toString()}`;
 }
 
+function CheckIcon({ size = 10 }: { size?: number }) {
+  return (
+    <svg width={size} height={(size * 8) / 10} viewBox="0 0 10 8" fill="none">
+      <path
+        d="M1 4L3.5 6.5L9 1"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function KakaoOfficeMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapStatus, setMapStatus] = useState<"ready" | "fallback">(
@@ -248,6 +262,11 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [errors, setErrors] = useState<Record<string, boolean>>({});
+  const [privacyConsent, setPrivacyConsent] = useState(false);
+
+  function clearError(key: string) {
+    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: false }));
+  }
 
   function handleChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -255,9 +274,7 @@ export default function ContactPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (submitError) setSubmitError("");
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: false }));
-    }
+    clearError(name);
   }
 
   function handleCheckbox(type: string) {
@@ -280,6 +297,7 @@ export default function ContactPage() {
     ) {
       newErrors.email = true;
     }
+    if (!privacyConsent) newErrors.privacyConsent = true;
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -292,6 +310,7 @@ export default function ContactPage() {
         !formData.organization.trim() ? "organization" : "",
         !formData.contactPerson.trim() ? "contact_person" : "",
         !formData.phone.trim() ? "phone" : "",
+        !privacyConsent ? "privacy_consent" : "",
       ]
         .filter(Boolean)
         .join(",");
@@ -344,18 +363,20 @@ export default function ContactPage() {
       setIsSubmitting(true);
       const response = await fetch(CONTACT_FORM_ENDPOINT, {
         method: "POST",
+        mode: "no-cors",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "text/plain;charset=utf-8",
         },
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
+      if (response.type !== "opaque" && !response.ok) {
         throw new Error(`Contact form request failed: ${response.status}`);
       }
 
       setSubmitStatus("sent");
       setFormData(initialFormData);
+      setPrivacyConsent(false);
       trackEvent("generate_lead", {
         source: "contact_page",
         method: "endpoint",
@@ -590,22 +611,7 @@ export default function ContactPage() {
                                     : "border-neutral-400"
                                 }`}
                               >
-                                {isChecked && (
-                                  <svg
-                                    width="10"
-                                    height="8"
-                                    viewBox="0 0 10 8"
-                                    fill="none"
-                                  >
-                                    <path
-                                      d="M1 4L3.5 6.5L9 1"
-                                      stroke="white"
-                                      strokeWidth="1.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                    />
-                                  </svg>
-                                )}
+                                {isChecked && <CheckIcon />}
                               </span>
                               <span className="text-[14px] tracking-[-0.02em]">
                                 {type}
@@ -671,6 +677,45 @@ export default function ContactPage() {
                         className="w-full bg-transparent border-2 border-neutral-300 p-4 text-[16px] tracking-[-0.02em] outline-none transition-colors duration-150 focus:border-primary resize-vertical"
                         placeholder="시공 관련 궁금하신 내용을 자유롭게 작성해주세요"
                       />
+                    </div>
+
+                    {/* 개인정보 수집·이용 동의 */}
+                    <div>
+                      <label className="flex cursor-pointer items-start gap-3 select-none">
+                        <input
+                          type="checkbox"
+                          checked={privacyConsent}
+                          onChange={() => {
+                            setPrivacyConsent((prev) => !prev);
+                            clearError("privacyConsent");
+                          }}
+                          className="sr-only"
+                        />
+                        <span
+                          className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center border ${
+                            privacyConsent
+                              ? "border-primary bg-primary"
+                              : errors.privacyConsent
+                                ? "border-red-500"
+                                : "border-neutral-400"
+                          }`}
+                        >
+                          {privacyConsent && <CheckIcon size={11} />}
+                        </span>
+                        <span className="text-[13px] leading-[1.7] tracking-[-0.02em] text-neutral-600">
+                          <span className="text-accent">*</span> 문의 처리를 위한{" "}
+                          <span className="font-bold text-neutral-900">
+                            개인정보 수집·이용
+                          </span>
+                          에 동의합니다. 수집 항목: 기관명·담당자명·연락처·이메일,
+                          이용 목적: 견적 상담 및 회신, 보유 기간: 상담 완료 후 1년.
+                        </span>
+                      </label>
+                      {errors.privacyConsent && (
+                        <p className="mt-2 text-[12px] text-red-500">
+                          개인정보 수집·이용에 동의해주세요
+                        </p>
+                      )}
                     </div>
 
                     {/* Submit */}

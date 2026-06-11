@@ -8,10 +8,10 @@ export default function FinalCTA() {
         <ScrollReveal>
           <div className="mx-auto max-w-[640px] text-center">
             <h2 className="text-[24px] font-bold tracking-[-0.04em] text-white md:text-[42px]">
-              클린룸 시공, 지금 상담하세요
+              현장 실측부터 견적까지, 무료로 시작하세요
             </h2>
             <p className="mt-4 text-[14px] leading-[1.7] tracking-[-0.02em] text-neutral-400 md:mt-6 md:text-[18px]">
-              20년 경험의 전문가가 직접 상담해 드립니다
+              20년 경험의 전문가가 직접 상담하고, 영업일 1일 내 회신드립니다
             </p>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-12">
               <a

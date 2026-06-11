@@ -216,13 +216,13 @@ export const seoKeywords: SeoKeyword[] = [
     cta: "service",
   },
 
-  // ── Reviews / Case Study ──────────────────────────────────────────────────
+  // ── Case Study ────────────────────────────────────────────────────────────
   {
-    keyword: "수술실 클린룸 시공 후기",
+    keyword: "수술실 클린룸 시공 사례",
     intent: "case-study",
     priority: 2,
     targetPath: "/portfolio",
-    related: ["수술실 클린룸 사례", "병원 클린룸 시공사례", "수술실 공사 후기"],
+    related: ["수술실 클린룸 사례", "병원 클린룸 시공사례", "수술실 공사 사례"],
     cta: "portfolio",
   },
   {
@@ -230,15 +230,15 @@ export const seoKeywords: SeoKeyword[] = [
     intent: "case-study",
     priority: 1,
     targetPath: "/portfolio",
-    related: ["BCR 클린룸 공사 후기", "수술실 클린룸 시공 후기", "클린룸 포트폴리오"],
+    related: ["BCR 클린룸 공사 사례", "수술실 클린룸 시공 사례", "클린룸 포트폴리오"],
     cta: "portfolio",
   },
   {
-    keyword: "BCR 클린룸 공사 후기",
+    keyword: "BCR 클린룸 공사 사례",
     intent: "case-study",
     priority: 2,
     targetPath: "/portfolio",
-    related: ["병원 클린룸 시공사례", "BCR 시공 사례", "수술실 클린룸 시공 후기"],
+    related: ["병원 클린룸 시공사례", "BCR 시공 사례", "수술실 클린룸 시공 사례"],
     cta: "portfolio",
   },
 ];

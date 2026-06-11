@@ -62,9 +62,11 @@ export function faqSchema(
   slug: string,
   faqs: FaqItem[]
 ): Record<string, unknown> {
+  // slug "" → 루트(`/#faq`). 선행/후행 슬래시를 정규화해 `//#faq` 같은 잘못된 @id를 막는다.
+  const path = slug.replace(/^\/+|\/+$/g, "");
   return {
     "@type": "FAQPage",
-    "@id": `${SITE_URL}/${slug}#faq`,
+    "@id": path ? `${SITE_URL}/${path}#faq` : `${SITE_URL}/#faq`,
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,

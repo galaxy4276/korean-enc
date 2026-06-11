@@ -1,4 +1,5 @@
 import Container from "@/components/Container";
+import Image from "next/image";
 import ScrollReveal, {
   StaggerContainer,
   StaggerItem,
@@ -37,7 +38,7 @@ export default function ValidationGuide() {
               <p className="mb-4 text-[13px] font-bold uppercase text-accent md:text-[15px]">
                 Handover Standard
               </p>
-              <h2 className="text-[24px] font-bold leading-[1.3] text-white md:text-[42px]">
+              <h2 className="text-[24px] font-bold tracking-[-0.04em] leading-[1.3] text-white md:text-[42px]">
                 완공 사진보다 중요한 것은 운영 가능한 상태입니다
               </h2>
             </div>
@@ -49,21 +50,54 @@ export default function ValidationGuide() {
           </div>
         </ScrollReveal>
 
-        <StaggerContainer className="mt-12 grid grid-cols-1 gap-px bg-white/15 md:mt-16 md:grid-cols-4">
-          {validationItems.map((item) => (
-            <StaggerItem key={item.title}>
-              <article className="h-full bg-primary-dark p-7 md:p-8">
-                <div className="mb-6 h-[3px] w-10 bg-accent" />
-                <h3 className="text-[18px] font-bold text-white md:text-[22px]">
-                  {item.title}
-                </h3>
-                <p className="mt-4 text-[14px] leading-[1.75] text-neutral-300 md:text-[15px]">
-                  {item.description}
-                </p>
-              </article>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
+        <div className="mt-12 grid gap-10 md:mt-16 md:grid-cols-2 md:items-center md:gap-16">
+          {/* 현장 검증 사진 */}
+          <ScrollReveal>
+            <div className="relative aspect-[4/3] overflow-hidden">
+              <Image
+                src="/images/kenc-isolation-entry-controls.webp"
+                alt="현장 검증 — 차압계와 출입 설비 점검"
+                fill
+                sizes="(min-width: 1080px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </ScrollReveal>
+
+          {/* 검증 체크리스트 */}
+          <StaggerContainer className="flex flex-col">
+            {validationItems.map((item) => (
+              <StaggerItem key={item.title}>
+                <div className="flex gap-4 border-t border-white/15 py-6 first:border-t-0 first:pt-0 md:py-7">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    className="mt-0.5 shrink-0 text-accent"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12.5l4.5 4.5L19 7.5"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <div>
+                    <h3 className="text-[18px] font-bold tracking-[-0.02em] text-white md:text-[20px]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-[14px] leading-[1.75] text-neutral-300 md:text-[15px]">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
       </Container>
     </section>
   );

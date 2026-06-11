@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Container from "@/components/Container";
 import ScrollReveal from "@/components/ScrollReveal";
+import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import Link from "next/link";
 
 export default function BeforeAfter() {
@@ -19,34 +19,20 @@ export default function BeforeAfter() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
-          <div className="mt-12 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-8">
-            {/* Process */}
-            <div className="relative aspect-[4/3]">
-              <Image
-                src="/images/kenc-surgery-structure-before.webp"
-                alt="수술실 구조 시공 과정"
-                fill
-                sizes="(min-width: 1080px) 50vw, 100vw"
-                className="object-cover"
-              />
-              <span className="absolute top-4 left-4 bg-[#dc3545] px-4 py-1.5 text-[12px] font-bold tracking-[-0.01em] text-white">
-                PROCESS
-              </span>
-            </div>
-
-            {/* Result */}
-            <div className="relative aspect-[4/3]">
-              <Image
-                src="/images/kenc-surgery-complete-white.webp"
-                alt="완공된 수술실"
-                fill
-                sizes="(min-width: 1080px) 50vw, 100vw"
-                className="object-cover"
-              />
-              <span className="absolute top-4 left-4 bg-[#28a745] px-4 py-1.5 text-[12px] font-bold tracking-[-0.01em] text-white">
-                RESULT
-              </span>
-            </div>
+          <div className="mt-12 md:mt-16">
+            <BeforeAfterSlider
+              beforeSrc="/images/kenc-surgery-structure-before.webp"
+              afterSrc="/images/kenc-surgery-complete-white.webp"
+              beforeAlt="수술실 구조 시공 과정"
+              afterAlt="완공된 수술실"
+              beforeLabel="시공 과정"
+              afterLabel="완공"
+              sizes="(min-width: 1080px) 1100px, 100vw"
+            />
+            <p className="mt-3 text-[13px] tracking-[-0.02em] text-neutral-500">
+              가운데 핸들을 좌우로 드래그하면 시공 과정과 완공 상태를 비교할 수
+              있습니다.
+            </p>
           </div>
         </ScrollReveal>
 
