@@ -89,15 +89,17 @@ function BcrSection() {
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {bcrCards.map((card) => (
             <StaggerItem key={card.title}>
-              <div className="bg-neutral-50 p-8 md:p-10 h-full flex gap-6 items-start">
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  width={80}
-                  height={80}
-                  className="w-16 h-16 md:w-20 md:h-20 shrink-0 object-contain"
-                />
-                <div>
+              <div className="bg-neutral-50 h-full">
+                <div className="relative aspect-[16/10]">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    sizes="(min-width: 1080px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-8 md:p-10">
                   <h3 className="text-lg md:text-xl font-bold tracking-[-0.03em] text-neutral-900 mb-3">
                     {card.title}
                   </h3>

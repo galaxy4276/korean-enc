@@ -170,7 +170,7 @@ function GalleryLightbox({
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 py-5 md:px-10 md:py-7">
         <span className="text-xs font-bold tracking-[0.08em] text-accent md:text-sm">
-          CURATED WALL
+          FIELD RECORD
         </span>
         <button
           type="button"
@@ -272,24 +272,24 @@ function SourceArchive({ activeCategory }: { activeCategory: string }) {
       <Container>
         <ScrollReveal>
           <p className="mb-4 text-sm font-medium tracking-[0.08em] text-accent md:mb-6 md:text-base">
-            CURATED WALL
+            FIELD RECORD
           </p>
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="text-2xl font-bold leading-[1.3] tracking-[-0.04em] text-white md:text-[42px]">
-                제공자료 큐레이션 월
+                시공 현장 기록
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-[1.7] tracking-[-0.02em] text-neutral-400 md:text-base">
-                첨부 원본과 PPT 내부 이미지를 미술관 벽처럼 한 면에 걸었습니다.
-                작품을 누르면 큰 화면으로 감상할 수 있습니다.
+                현장에서 촬영한 시공 사진과 도면 자료입니다.
+                사진을 누르면 크게 볼 수 있습니다.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm tracking-[-0.02em] text-neutral-400 md:text-base">
-              <span>전체 {attachmentArchiveSummary.total}점</span>
-              <span>수술실 {attachmentArchiveSummary["수술실"]}점</span>
-              <span>격리실 {attachmentArchiveSummary["격리실"]}점</span>
-              <span>중환자실 {attachmentArchiveSummary["중환자실"]}점</span>
-              <span>기타 {attachmentArchiveSummary["기타"]}점</span>
+              <span>전체 {attachmentArchiveSummary.total}장</span>
+              <span>수술실 {attachmentArchiveSummary["수술실"]}장</span>
+              <span>격리실 {attachmentArchiveSummary["격리실"]}장</span>
+              <span>중환자실 {attachmentArchiveSummary["중환자실"]}장</span>
+              <span>기타 {attachmentArchiveSummary["기타"]}장</span>
             </div>
           </div>
         </ScrollReveal>
@@ -311,11 +311,11 @@ function SourceArchive({ activeCategory }: { activeCategory: string }) {
                   loading="lazy"
                   className="w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                 />
-                {/* Museum plate overlay */}
+                {/* Caption overlay */}
                 <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <div className="p-3 md:p-4">
                     <span className="font-mono text-[10px] tracking-[0.05em] text-accent md:text-xs">
-                      No.{String(i + 1).padStart(2, "0")}
+                      현장 #{String(i + 1).padStart(2, "0")}
                     </span>
                     <p className="mt-1 text-[12px] font-bold leading-[1.4] tracking-[-0.02em] text-white md:text-sm">
                       {item.title}
@@ -560,7 +560,7 @@ function ProjectModal({
           {/* Gallery thumbnails */}
           <div className="mt-8">
             <p className="text-xs text-neutral-600 tracking-[-0.01em] mb-3">
-              시공 갤러리
+              시공 사진
             </p>
             <div className="grid grid-cols-4 gap-3">
               {project.gallery.map((src, i) => (

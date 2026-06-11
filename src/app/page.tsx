@@ -1,5 +1,6 @@
 import HeroSection from "@/components/sections/HeroSection";
 import ServiceOverview from "@/components/sections/ServiceOverview";
+import AirflowSection from "@/components/sections/AirflowSection";
 import EstimateChecklist from "@/components/sections/EstimateChecklist";
 import BeforeAfter from "@/components/sections/BeforeAfter";
 import ProcessTimeline from "@/components/sections/ProcessTimeline";
@@ -19,6 +20,7 @@ export default function Home() {
       <HeroSection />
       <EstimateChecklist />
       <ServiceOverview />
+      <AirflowSection />
       <BeforeAfter />
       <ProcessTimeline />
       <ValidationGuide />

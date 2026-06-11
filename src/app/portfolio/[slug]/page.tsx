@@ -149,7 +149,7 @@ export default async function CaseStudyPage({ params }: Props) {
         <Container>
           <ScrollReveal>
             <p className="text-sm md:text-base font-medium tracking-[-0.02em] text-primary mb-4 md:mb-6">
-              GALLERY
+              FIELD PHOTOS
             </p>
             <h2 className="text-2xl md:text-[42px] font-bold tracking-[-0.04em] leading-[1.3] text-neutral-900 mb-10 md:mb-14">
               시공 현장 사진
