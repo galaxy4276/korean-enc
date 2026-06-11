@@ -116,8 +116,8 @@ function IntroSection() {
           <ScrollReveal delay={0.15}>
             <div className="relative aspect-[4/3]">
               <Image
-                src="/images/kenc-surgery-design-drawing.webp"
-                alt="병원 클린룸 시공 설계 도면 검토 — 코리아이앤씨"
+                src="/images/kenc-surgery-complete-white.webp"
+                alt="완공된 병원 클린룸 — 코리아이앤씨"
                 fill
                 sizes="(max-width: 1080px) 100vw, 50vw"
                 className="object-cover"

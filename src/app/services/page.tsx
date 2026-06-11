@@ -46,25 +46,25 @@ const bcrCards = [
     title: "생물학적 입자 제어",
     description:
       "세균, 바이러스 등 생체 입자를 HEPA 필터를 통해 효과적으로 제거하여 청정 환경을 조성합니다.",
-    image: "/images/bcr-biological.webp",
+    image: "/images/kenc-maintenance-filter-change.webp",
   },
   {
     title: "비생체 입자 제어",
     description:
       "먼지, 미립자 등 비생체 오염물질을 체계적으로 제어하여 청정 환경을 안정적으로 유지합니다.",
-    image: "/images/bcr-particle.webp",
+    image: "/images/kenc-surgery-complete-white.webp",
   },
   {
     title: "살균/멸균 환경",
     description:
       "UV 살균, 화학적 멸균 등 다양한 방법으로 무균 상태를 보장하여 감염 위험을 원천 차단합니다.",
-    image: "/images/bcr-sterilization.webp",
+    image: "/images/complete-blue-stainless-cabinet.webp",
   },
   {
     title: "공기 청정도 관리",
     description:
       "양압/음압 제어와 공기 순환 시스템 운영으로 실내 공기 청정도를 항시 최적 상태로 관리합니다.",
-    image: "/images/bcr-airquality.webp",
+    image: "/images/kenc-isolation-air-handler.webp",
   },
 ];
 

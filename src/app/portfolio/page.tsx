@@ -40,7 +40,7 @@ const projects: Project[] = [
     gallery: [
       "/images/kenc-surgery-structure-before.webp",
       "/images/kenc-surgery-panel-process.webp",
-      "/images/kenc-surgery-design-drawing.webp",
+      "/images/complete-blue-stainless-cabinet.webp",
       "/images/kenc-surgery-complete-white.webp",
     ],
   },
@@ -93,14 +93,14 @@ const projects: Project[] = [
     id: 5,
     title: "클린룸 검증·측정 사례",
     category: "기타",
-    image: "/images/kenc-validation-pressure-meter.webp",
+    image: "/images/kenc-maintenance-filter-change.webp",
     summary: "완공 후 운영 안정성을 확인하기 위해 차압, 소음, 파티클 등 주요 항목을 점검합니다.",
     scope: "차압 측정, 소음 측정, 파티클 측정, 필터 상태 확인, 설비 기능 점검",
-    beforeImage: "/images/kenc-validation-noise-meter.webp",
+    beforeImage: "/images/kenc-maintenance-filter-change.webp",
     gallery: [
-      "/images/kenc-validation-pressure-meter.webp",
-      "/images/kenc-validation-noise-meter.webp",
       "/images/kenc-maintenance-filter-change.webp",
+      "/images/archive/kenc-archive-076.webp",
+      "/images/archive/kenc-archive-070.webp",
       "/images/complete-beige-gas-panel.webp",
     ],
   },
@@ -521,10 +521,10 @@ export default function PortfolioPage() {
         <Container>
           <ScrollReveal>
             <p className="text-sm md:text-base font-medium tracking-[-0.02em] text-primary mb-4 md:mb-6">
-              CASE REVIEWS
+              CASE RECORDS
             </p>
             <h2 className="text-2xl md:text-[42px] font-bold tracking-[-0.04em] leading-[1.3] text-neutral-900 mb-10 md:mb-14">
-              시공 사례 상세 후기
+              시공 사례 상세 기록
             </h2>
           </ScrollReveal>
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">

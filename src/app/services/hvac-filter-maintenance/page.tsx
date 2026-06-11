@@ -137,21 +137,21 @@ const applicationSpaces = [
     title: "수술실(OR)",
     description:
       "수술실은 외부 오염을 차단하는 양압 환경이 필수입니다. FFU 혹은 BFU를 통한 일방향(층류) 기류 공급으로 오염 입자를 신속히 배출하며, HEPA 필터 포집 효율과 차압 수치를 정기적으로 검증합니다.",
-    image: "/images/kenc-validation-pressure-meter.webp",
-    imageAlt: "수술실 차압 측정 검증",
+    image: "/images/kenc-surgery-complete-white.webp",
+    imageAlt: "수술실 클린룸 완공",
   },
   {
     title: "음압격리실",
     description:
       "음압격리실은 내부 오염 공기가 외부로 누출되지 않도록 음압을 유지합니다. 배기 풍량과 공급 풍량의 균형, 인터락 도어 작동 시 차압 변화를 모니터링하여 격리 기능이 상시 유지되도록 관리합니다.",
-    image: "/images/bcr-airquality.webp",
-    imageAlt: "격리실 공기질 청정도 측정",
+    image: "/images/kenc-isolation-air-handler.webp",
+    imageAlt: "격리실 급배기 공조 설비",
   },
   {
     title: "중환자실(ICU)·무균병동",
     description:
       "환자 면역 상태가 취약한 공간일수록 공기 중 부유 미립자 농도 관리가 중요합니다. 필터 교체 이력과 파티클 카운터 측정 기록을 체계적으로 관리해 감염 리스크를 최소화합니다.",
-    image: "/images/bcr-particle.webp",
+    image: "/images/archive/kenc-archive-070.webp",
     imageAlt: "클린룸 파티클(입자) 측정",
   },
 ];
@@ -367,7 +367,7 @@ function QualitySection() {
           <ScrollReveal delay={0.1}>
             <div className="relative aspect-[4/3]">
               <Image
-                src="/images/bcr-airquality.webp"
+                src="/images/archive/kenc-archive-076.webp"
                 alt="병원 클린룸 공기질 청정도 확인"
                 fill
                 sizes="(max-width: 1080px) 100vw, 50vw"

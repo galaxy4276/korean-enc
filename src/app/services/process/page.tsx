@@ -126,8 +126,8 @@ const processSteps = [
       "운영 동선 및 시공 범위 협의",
       "고객 요구사항 및 클린룸 용도 확인",
     ],
-    image: "/images/kenc-surgery-design-drawing.webp",
-    imageAlt: "병원 클린룸 설계 도면 검토",
+    image: "/images/kenc-surgery-structure-before.webp",
+    imageAlt: "현장 실측 및 공간 조사",
   },
   {
     step: "02",
@@ -188,8 +188,8 @@ const processSteps = [
       "자동문, 인터락, 차압계 기능 점검",
       "고객 입회 검수 및 검수 보고서 제공",
     ],
-    image: "/images/kenc-validation-pressure-meter.webp",
-    imageAlt: "클린룸 차압 측정 검증",
+    image: "/images/archive/kenc-archive-076.webp",
+    imageAlt: "클린룸 성능 검증",
   },
   {
     step: "06",
@@ -291,22 +291,22 @@ const validationItems = [
     title: "파티클 카운트",
     description:
       "부유 미립자 수를 측정해 클린룸 공기 청정도가 설계 기준에 부합하는지 확인합니다.",
-    image: "/images/bcr-particle.webp",
+    image: "/images/archive/kenc-archive-070.webp",
     imageAlt: "클린룸 파티클 측정",
   },
   {
     title: "차압 측정",
     description:
       "양압(수술실)·음압(격리실) 클린룸의 내외부 차압을 측정해 설계값을 충족하는지 검증합니다.",
-    image: "/images/kenc-validation-pressure-meter.webp",
-    imageAlt: "클린룸 차압계 측정",
+    image: "/images/archive/kenc-archive-076.webp",
+    imageAlt: "클린룸 차압 및 공기질 검증",
   },
   {
     title: "소음 측정",
     description:
       "공조 설비 가동 시 클린룸 내부 소음 수준을 측정해 의료 환경 기준에 적합한지 확인합니다.",
-    image: "/images/kenc-validation-noise-meter.webp",
-    imageAlt: "클린룸 소음 측정기",
+    image: "/images/archive/kenc-archive-075.webp",
+    imageAlt: "클린룸 소음 측정",
   },
 ];
 
@@ -465,14 +465,14 @@ function ProcessGallerySection() {
       label: "패널 시공",
     },
     {
-      src: "/images/kenc-validation-pressure-meter.webp",
-      alt: "클린룸 차압 측정 검증",
-      label: "차압 측정",
+      src: "/images/archive/kenc-archive-076.webp",
+      alt: "클린룸 공기질 검증",
+      label: "공기질 검증",
     },
     {
-      src: "/images/kenc-validation-noise-meter.webp",
-      alt: "클린룸 소음 측정 검증",
-      label: "소음 측정",
+      src: "/images/kenc-maintenance-filter-change.webp",
+      alt: "클린룸 필터 상태 점검",
+      label: "필터 점검",
     },
   ];
 

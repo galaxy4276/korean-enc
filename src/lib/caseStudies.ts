@@ -16,10 +16,10 @@ export interface CaseStudy {
 export const caseStudies: CaseStudy[] = [
   {
     slug: "surgery-cleanroom-complete-review",
-    title: "수술실 클린룸 시공 후기",
+    title: "수술실 클린룸 시공 사례",
     h1: "수술실 클린룸 완공 사례 — BCR 패널·공조·조명 일체 시공",
     category: "수술실",
-    metaTitle: "수술실 클린룸 시공 후기 | 병원 BCR 공사 사례",
+    metaTitle: "수술실 클린룸 시공 사례 | 병원 BCR 공사 기록",
     metaDescription:
       "병원 수술실 클린룸 BCR 시공 전 과정을 담은 익명 사례. 골조 정리부터 패널·공조·수술등 설치까지 공정별 결과와 완공 품질을 확인하세요.",
     keywords: [
@@ -28,7 +28,7 @@ export const caseStudies: CaseStudy[] = [
       "병원 수술실 공사",
       "클린룸 패널 시공",
       "수술실 공조 설비",
-      "수술실 시공 후기",
+      "수술실 시공 사례",
       "수술실 완공 사례",
       "병원 시설 공사",
       "클린룸 공사 업체",
@@ -63,13 +63,13 @@ export const caseStudies: CaseStudy[] = [
         body: "완공 후 수술실은 설계 도면과 일치하는 레이아웃으로 마감되었으며, 수술등·가스 패널·공조 시스템이 정상 작동함을 확인했습니다. 병원 측에 필터 교체 주기(6~12개월 권장), 차압계 일상 점검 방법, 이상 징후 발생 시 연락 절차를 포함한 유지관리 가이드를 제공했습니다. 코리아이앤씨는 정기 점검 계약을 통해 장기 유지보수도 지원합니다.",
       },
       {
-        heading: "시공 후기 요약",
-        body: "병원 시설 담당자로부터 '설계 협의 단계부터 인도까지 소통이 명확했고, 공정 일정을 준수해 수술실 운영 공백을 최소화할 수 있었다'는 피드백을 받았습니다. 코리아이앤씨는 20년 현장 경험을 바탕으로 병원마다 다른 공간 조건과 요구사항에 맞춘 맞춤 시공을 제공합니다.",
+        heading: "시공 기록 요약",
+        body: "설계 협의 단계부터 인도까지 병원 운영 공백을 최소화하는 일정으로 진행한 사례입니다. 의료 장비 동선, 수술등 위치, 가스 패널 위치를 사전에 도면으로 확인하고 현장 조건에 맞춰 마감 품질을 확보했습니다. 코리아이앤씨는 20년 현장 경험을 바탕으로 병원마다 다른 공간 조건과 요구사항에 맞춘 맞춤 시공을 제공합니다.",
       },
     ],
     gallery: [
       "/images/kenc-surgery-structure-before.webp",
-      "/images/kenc-surgery-design-drawing.webp",
+      "/images/complete-blue-stainless-cabinet.webp",
       "/images/kenc-surgery-panel-process.webp",
       "/images/kenc-surgery-complete-white.webp",
       "/images/complete-beige-twin-lamps.webp",
@@ -101,10 +101,10 @@ export const caseStudies: CaseStudy[] = [
 
   {
     slug: "negative-pressure-room-construction-review",
-    title: "음압격리실 시공 후기",
+    title: "음압격리실 시공 사례",
     h1: "음압격리실 설치 사례 — 전실·인터락·차압 시스템 일체 구축",
     category: "격리실",
-    metaTitle: "음압격리실 시공 후기 | 음압격리병실 설치 사례",
+    metaTitle: "음압격리실 시공 사례 | 음압격리병실 설치 기록",
     metaDescription:
       "음압격리실 전실·인터락·차압계·자동문·공조기·배수 설비까지 전체 시스템을 구축한 익명 시공 사례. 설치 과정과 검증 결과를 확인하세요.",
     keywords: [
@@ -116,7 +116,7 @@ export const caseStudies: CaseStudy[] = [
       "음압격리실 전실",
       "감염병 격리실",
       "음압격리병실 시공",
-      "음압격리실 후기",
+      "음압격리실 시공 사례",
       "격리병실 공사 업체",
     ],
     summary:
@@ -148,8 +148,8 @@ export const caseStudies: CaseStudy[] = [
         body: "완공 후 차압 수치 측정과 기류 방향 스모크 테스트를 실시해 설계 기준을 충족하는지 확인했습니다. 병원 감염 관리팀에 차압계 일상 모니터링 방법, 인터락 오류 시 대응 절차, 필터 교체 주기 및 폐수탱크 점검 항목을 포함한 운영 가이드를 제공했습니다.",
       },
       {
-        heading: "시공 후기 요약",
-        body: "병원 측에서는 '인터락 시스템과 차압 표시가 직관적으로 설계되어 간호 인력이 빠르게 운영법을 익혔다'는 평가를 받았습니다. 감염 관리 시설은 운영 편의성과 기술 정확도가 동시에 요구되는 분야로, 코리아이앤씨는 설계 단계부터 운영 시나리오를 함께 검토해 최적의 결과를 제공합니다.",
+        heading: "시공 기록 요약",
+        body: "인터락 시스템과 차압 표시를 현장 운영자가 확인하기 쉬운 위치에 배치한 사례입니다. 감염 관리 시설은 운영 편의성과 기술 정확도가 동시에 요구되는 분야이므로, 설계 단계부터 출입 동선과 운영 시나리오를 함께 검토해 최종 구성을 확정했습니다.",
       },
     ],
     gallery: [
@@ -232,8 +232,8 @@ export const caseStudies: CaseStudy[] = [
         body: "완공 후 조도 측정·소음 측정·공조 풍량 확인을 실시해 의료 환경 기준을 충족하는지 검증했습니다. 병원 시설 팀에 스테인리스 캐비닛 청소 방법, 필터 교체 주기, 조명 기구 교체 방법을 포함한 유지관리 가이드를 제공했습니다.",
       },
       {
-        heading: "시공 후기 요약",
-        body: "병원 감염관리팀으로부터 '동선이 개선되어 간호 업무 동선이 단축됐고, 스테인리스 캐비닛 덕분에 위생 관리가 이전보다 효율적으로 이루어지고 있다'는 피드백을 받았습니다. 중환자실 시공은 운영 중 공사 범위를 최소화하는 일정 설계가 핵심으로, 코리아이앤씨는 병원 운영팀과 사전 협의를 통해 최소 공백 시공을 실현합니다.",
+        heading: "시공 기록 요약",
+        body: "병상 구역과 간호 스테이션 사이의 동선을 정리하고, 위생 관리가 쉬운 마감과 수납 구성을 적용한 사례입니다. 중환자실 시공은 운영 중 공사 범위를 최소화하는 일정 설계가 핵심이므로, 병원 운영팀과 사전 협의를 통해 공백을 줄이는 방식으로 진행합니다.",
       },
     ],
     gallery: [
@@ -290,7 +290,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     summary:
       "완공 후 클린룸의 청정 성능을 유지하기 위한 정기 점검 사례입니다. 차압·소음·파티클·필터 상태를 항목별로 점검하고 개선이 필요한 부위를 조기에 발견해 처리했습니다.",
-    coverImage: "/images/kenc-validation-pressure-meter.webp",
+    coverImage: "/images/kenc-maintenance-filter-change.webp",
     sections: [
       {
         heading: "프로젝트 개요",
@@ -322,12 +322,10 @@ export const caseStudies: CaseStudy[] = [
       },
     ],
     gallery: [
-      "/images/kenc-validation-pressure-meter.webp",
-      "/images/kenc-validation-noise-meter.webp",
       "/images/kenc-maintenance-filter-change.webp",
-      "/images/bcr-airquality.webp",
-      "/images/bcr-particle.webp",
-      "/images/bcr-biological.webp",
+      "/images/archive/kenc-archive-076.webp",
+      "/images/archive/kenc-archive-070.webp",
+      "/images/archive/kenc-archive-075.webp",
     ],
     faqs: [
       {

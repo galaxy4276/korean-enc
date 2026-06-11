@@ -120,8 +120,8 @@ function IntroSection() {
           <ScrollReveal delay={0.2}>
             <div className="relative aspect-[4/3]">
               <Image
-                src="/images/kenc-surgery-design-drawing.webp"
-                alt="수술실 클린룸 설계 도면 검토"
+                src="/images/complete-blue-stainless-cabinet.webp"
+                alt="수술실 클린룸 완공 전경"
                 fill
                 sizes="(max-width: 1080px) 100vw, 50vw"
                 className="object-cover"
@@ -225,25 +225,25 @@ const qualityPoints = [
     label: "파티클 측정",
     detail:
       "공기 청정도를 파티클 카운터로 측정해 목표 청정 수준 달성 여부를 확인합니다.",
-    image: "/images/bcr-particle.webp",
+    image: "/images/archive/kenc-archive-070.webp",
   },
   {
     label: "차압 검증",
     detail:
       "수술실-전실-복도 간 차압이 설계 기준 범위 내에 있는지 기기로 측정·기록합니다.",
-    image: "/images/kenc-validation-pressure-meter.webp",
+    image: "/images/archive/kenc-archive-076.webp",
   },
   {
     label: "소음 측정",
     detail:
       "FFU 풍량이 증가해도 소음이 의료 환경 허용 범위 내에 있는지 소음계로 확인합니다.",
-    image: "/images/kenc-validation-noise-meter.webp",
+    image: "/images/archive/kenc-archive-075.webp",
   },
   {
     label: "공기 청정도 관리",
     detail:
       "급기·배기 밸런스 조정 후 전체 공기 청정도를 재측정하여 균일한 청정 환경을 검증합니다.",
-    image: "/images/bcr-airquality.webp",
+    image: "/images/kenc-isolation-air-handler.webp",
   },
 ];
 
@@ -398,7 +398,7 @@ const relatedLinks = [
   },
   {
     href: "/portfolio/surgery-cleanroom-complete-review",
-    title: "수술실 클린룸 시공 후기",
+    title: "수술실 클린룸 시공 사례",
     description: "실제 수술실 BCR 완공 사례",
   },
 ];
