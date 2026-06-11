@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import Container from "@/components/Container";
@@ -12,6 +12,7 @@ import Link from "next/link";
 import {
   attachmentArchive,
   attachmentArchiveSummary,
+  type AttachmentArchiveItem,
 } from "@/lib/attachmentArchive";
 import { caseStudies } from "@/lib/caseStudies";
 
@@ -122,72 +123,210 @@ const projects: Project[] = [
 ];
 
 const categories = ["전체", "수술실", "격리실", "중환자실", "기타"];
-const ARCHIVE_PAGE_SIZE = 20;
+const ARCHIVE_PAGE_SIZE = 24;
+
+/* ─────────────────── Gallery Lightbox ─────────────────── */
+
+function GalleryLightbox({
+  items,
+  index,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  items: AttachmentArchiveItem[];
+  index: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  const item = items[index];
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
+    window.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, onPrev, onNext]);
+
+  if (!item) return null;
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[60] flex flex-col bg-primary-dark/97"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      onClick={onClose}
+    >
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-5 py-5 md:px-10 md:py-7">
+        <span className="text-xs font-bold tracking-[0.08em] text-accent md:text-sm">
+          CURATED WALL
+        </span>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="닫기"
+          className="flex h-10 w-10 items-center justify-center text-neutral-300 transition-colors hover:text-white"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Stage */}
+      <div className="relative flex flex-1 items-center justify-center px-4 pb-4 md:px-20">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onPrev();
+          }}
+          aria-label="이전"
+          className="absolute left-2 z-10 flex h-12 w-12 items-center justify-center text-neutral-400 transition-colors hover:text-white md:left-6"
+        >
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={item.image}
+          alt={`${item.title} - ${item.sourceFile}`}
+          onClick={(e) => e.stopPropagation()}
+          className="max-h-full max-w-full object-contain shadow-[0_30px_80px_rgba(0,0,0,0.5)]"
+        />
+
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onNext();
+          }}
+          aria-label="다음"
+          className="absolute right-2 z-10 flex h-12 w-12 items-center justify-center text-neutral-400 transition-colors hover:text-white md:right-6"
+        >
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Caption plate */}
+      <div
+        className="flex items-end justify-between gap-6 px-5 py-6 md:px-20 md:py-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div>
+          <div className="mb-3 h-[2px] w-10 bg-accent" />
+          <p className="text-base font-bold tracking-[-0.02em] text-white md:text-xl">
+            {item.title}
+          </p>
+          <p className="mt-1.5 text-xs tracking-[-0.01em] text-neutral-400 md:text-sm">
+            {item.category} · {item.sourceType} · {item.sourceFile}
+          </p>
+        </div>
+        <span className="shrink-0 font-mono text-sm tracking-[0.05em] text-neutral-400 md:text-base">
+          {String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ─────────────────── Curated Wall (Masonry) ─────────────────── */
 
 function SourceArchive({ activeCategory }: { activeCategory: string }) {
-  const [archiveView, setArchiveView] = useState({
-    category: activeCategory,
-    visibleCount: ARCHIVE_PAGE_SIZE,
-  });
+  const [visibleCount, setVisibleCount] = useState(ARCHIVE_PAGE_SIZE);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  // 카테고리 변경 감지: render 중 페이징/라이트박스 초기화 (effect 미사용)
+  const [prevCategory, setPrevCategory] = useState(activeCategory);
+  if (prevCategory !== activeCategory) {
+    setPrevCategory(activeCategory);
+    setVisibleCount(ARCHIVE_PAGE_SIZE);
+    setLightboxIndex(null);
+  }
+
   const archiveItems =
     activeCategory === "전체"
       ? attachmentArchive
       : attachmentArchive.filter((item) => item.category === activeCategory);
-  const visibleCount =
-    archiveView.category === activeCategory
-      ? archiveView.visibleCount
-      : ARCHIVE_PAGE_SIZE;
-  const visibleItems = archiveItems.slice(0, visibleCount);
-  const hasMore = visibleCount < archiveItems.length;
+
+  const visible = Math.min(visibleCount, archiveItems.length);
+  const visibleItems = archiveItems.slice(0, visible);
+  const hasMore = visible < archiveItems.length;
 
   return (
-    <section className="bg-neutral-50 py-[80px] md:py-[140px]">
+    <section className="bg-neutral-900 py-[80px] md:py-[140px]">
       <Container>
         <ScrollReveal>
-          <p className="text-sm md:text-base font-medium tracking-[-0.02em] text-primary mb-4 md:mb-6">
-            SOURCE ARCHIVE
+          <p className="mb-4 text-sm font-medium tracking-[0.08em] text-accent md:mb-6 md:text-base">
+            CURATED WALL
           </p>
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="text-2xl md:text-[42px] font-bold tracking-[-0.04em] leading-[1.3] text-neutral-900">
-                제공자료 전체 아카이브
+              <h2 className="text-2xl font-bold leading-[1.3] tracking-[-0.04em] text-white md:text-[42px]">
+                제공자료 큐레이션 월
               </h2>
-              <p className="mt-4 max-w-2xl text-sm md:text-base leading-[1.7] tracking-[-0.02em] text-neutral-600">
-                첨부 원본 이미지와 PPT 내부 이미지를 모두 공개용으로 정리한 자료입니다.
-                대표 사례에 쓰지 않은 사진도 카테고리별로 확인할 수 있습니다.
+              <p className="mt-4 max-w-2xl text-sm leading-[1.7] tracking-[-0.02em] text-neutral-400 md:text-base">
+                첨부 원본과 PPT 내부 이미지를 미술관 벽처럼 한 면에 걸었습니다.
+                작품을 누르면 큰 화면으로 감상할 수 있습니다.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm tracking-[-0.02em] text-neutral-600 md:text-base">
-              <span>전체 {attachmentArchiveSummary.total}건</span>
-              <span>수술실 {attachmentArchiveSummary["수술실"]}건</span>
-              <span>격리실 {attachmentArchiveSummary["격리실"]}건</span>
-              <span>중환자실 {attachmentArchiveSummary["중환자실"]}건</span>
-              <span>기타 {attachmentArchiveSummary["기타"]}건</span>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm tracking-[-0.02em] text-neutral-400 md:text-base">
+              <span>전체 {attachmentArchiveSummary.total}점</span>
+              <span>수술실 {attachmentArchiveSummary["수술실"]}점</span>
+              <span>격리실 {attachmentArchiveSummary["격리실"]}점</span>
+              <span>중환자실 {attachmentArchiveSummary["중환자실"]}점</span>
+              <span>기타 {attachmentArchiveSummary["기타"]}점</span>
             </div>
           </div>
         </ScrollReveal>
 
-        <div className="mt-12 grid grid-cols-2 gap-4 md:mt-16 md:grid-cols-4 lg:grid-cols-5 md:gap-5">
-          {visibleItems.map((item) => (
-            <article key={item.id} className="bg-white">
-              <div className="relative aspect-[4/3]">
-                <Image
+        {/* Masonry wall: CSS columns, 자연 비율 유지 */}
+        <div className="mt-12 columns-2 gap-3 md:mt-16 md:columns-3 md:gap-5 lg:columns-4">
+          {visibleItems.map((item, i) => (
+            <button
+              type="button"
+              key={item.id}
+              onClick={() => setLightboxIndex(i)}
+              className="group mb-3 block w-full break-inside-avoid bg-neutral-800 text-left md:mb-5"
+            >
+              <div className="relative overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={item.thumbnail}
                   alt={`${item.title} - ${item.sourceFile}`}
-                  fill
-                  sizes="(min-width: 1440px) 20vw, (min-width: 1080px) 25vw, 50vw"
-                  className="object-cover"
+                  loading="lazy"
+                  className="w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                 />
+                {/* Museum plate overlay */}
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="p-3 md:p-4">
+                    <span className="font-mono text-[10px] tracking-[0.05em] text-accent md:text-xs">
+                      No.{String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="mt-1 text-[12px] font-bold leading-[1.4] tracking-[-0.02em] text-white md:text-sm">
+                      {item.title}
+                    </p>
+                    <p className="mt-0.5 text-[10px] tracking-[-0.01em] text-neutral-300 md:text-[11px]">
+                      {item.sourceType}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="border border-t-0 border-neutral-200 p-3 md:p-4">
-                <p className="text-[12px] font-bold tracking-[-0.02em] text-neutral-900 md:text-sm">
-                  {item.title}
-                </p>
-                <p className="mt-1 line-clamp-2 text-[11px] leading-[1.5] tracking-[-0.01em] text-neutral-500 md:text-xs">
-                  {item.sourceType} · {item.sourceFile}
-                </p>
-              </div>
-            </article>
+            </button>
           ))}
         </div>
 
@@ -196,22 +335,37 @@ function SourceArchive({ activeCategory }: { activeCategory: string }) {
             <button
               type="button"
               onClick={() =>
-                setArchiveView({
-                  category: activeCategory,
-                  visibleCount: Math.min(
-                    visibleCount + ARCHIVE_PAGE_SIZE,
-                    archiveItems.length,
-                  ),
-                })
+                setVisibleCount((c) =>
+                  Math.min(c + ARCHIVE_PAGE_SIZE, archiveItems.length),
+                )
               }
-              className="rounded-[30px] border border-neutral-800 px-8 py-3 text-sm font-extrabold tracking-[-0.02em] text-neutral-800 transition-colors duration-150 hover:bg-neutral-800 hover:text-white md:px-10 md:py-4 md:text-base"
+              className="rounded-[30px] border border-neutral-500 px-8 py-3 text-sm font-extrabold tracking-[-0.02em] text-neutral-200 transition-colors duration-150 hover:bg-white hover:text-neutral-900 md:px-10 md:py-4 md:text-base"
             >
-              더보기 {Math.min(visibleCount, archiveItems.length)} /{" "}
-              {archiveItems.length}
+              더보기 {visible} / {archiveItems.length}
             </button>
           </div>
         )}
       </Container>
+
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <GalleryLightbox
+            items={visibleItems}
+            index={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+            onPrev={() =>
+              setLightboxIndex((i) =>
+                i === null ? i : (i - 1 + visibleItems.length) % visibleItems.length,
+              )
+            }
+            onNext={() =>
+              setLightboxIndex((i) =>
+                i === null ? i : (i + 1) % visibleItems.length,
+              )
+            }
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
