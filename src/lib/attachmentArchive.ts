@@ -9,7 +9,7 @@ export type AttachmentArchiveItem = {
   sourceType: string;
   usage: "representative" | "archive";
 };
-export const attachmentArchive: AttachmentArchiveItem[] = [
+const rawAttachmentArchive: AttachmentArchiveItem[] = [
   {
     "id": "archive-001",
     "category": "수술실",
@@ -1057,10 +1057,16 @@ export const attachmentArchive: AttachmentArchiveItem[] = [
   }
 ] as AttachmentArchiveItem[];
 
+// 타업체 로고가 박힌 3D 설계 도면 렌더링 자료는 공개 아카이브에서 제외
+const EXCLUDED_TITLES = new Set(["수술실 3D 설계 도면"]);
+
+export const attachmentArchive: AttachmentArchiveItem[] =
+  rawAttachmentArchive.filter((item) => !EXCLUDED_TITLES.has(item.title));
+
 export const attachmentArchiveSummary = {
-  total: 95,
-  "수술실": 39,
-  "격리실": 20,
-  "중환자실": 9,
-  "기타": 27,
+  total: attachmentArchive.length,
+  "수술실": attachmentArchive.filter((i) => i.category === "수술실").length,
+  "격리실": attachmentArchive.filter((i) => i.category === "격리실").length,
+  "중환자실": attachmentArchive.filter((i) => i.category === "중환자실").length,
+  "기타": attachmentArchive.filter((i) => i.category === "기타").length,
 };

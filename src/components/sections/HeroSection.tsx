@@ -45,24 +45,6 @@ function CountUp({ target, suffix, label }: { target: number; suffix: string; la
   );
 }
 
-function TrustFact({ value, label }: { value: string; label: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="text-center"
-    >
-      <div className="whitespace-nowrap text-[48px] font-black tracking-[-0.04em] text-white leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)] md:text-[56px]">
-        {value}
-      </div>
-      <div className="mt-2 text-[13px] font-medium tracking-[-0.02em] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
-        {label}
-      </div>
-    </motion.div>
-  );
-}
-
 export default function HeroSection() {
   return (
     <section className="relative flex min-h-[480px] items-center overflow-hidden md:min-h-[70vh]">
@@ -130,11 +112,9 @@ export default function HeroSection() {
             </ScrollReveal>
           </div>
 
-          {/* Right: Trust numbers */}
+          {/* Right: Trust numbers — 검증 가능한 사실만 노출 (날조 수치 금지) */}
           <div className="flex shrink-0 flex-row gap-10 md:flex-col md:gap-10 md:border-l md:border-white/15 md:pl-16">
             <CountUp target={20} suffix="년+" label="현장 경험" />
-            <div className="w-px bg-white/10 md:h-px md:w-full" />
-            <TrustFact value="2023.04" label="법인 설립" />
           </div>
         </div>
       </Container>
