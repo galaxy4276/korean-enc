@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/structuredData";
 import { caseStudySlugs } from "@/lib/caseStudies";
+import { insightSlugs } from "@/lib/insights";
 
 const BASE_URL = SITE_URL;
 const LAST_MODIFIED = new Date("2026-06-09");
@@ -19,6 +20,7 @@ const serviceRoutes: { slug: string; priority: number }[] = [
 
 // 사례 게시글 URL은 caseStudies 데이터에서 파생 (단일 진실 출처).
 const portfolioRoutes: string[] = caseStudySlugs;
+const insightRoutes: string[] = insightSlugs;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const serviceEntries: MetadataRoute.Sitemap = serviceRoutes.map(
@@ -38,6 +40,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     })
   );
+
+  const insightEntries: MetadataRoute.Sitemap = insightRoutes.map((slug) => ({
+    url: `${BASE_URL}/insights/${slug}`,
+    lastModified: new Date("2026-07-24"),
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
 
   return [
     {
@@ -66,6 +75,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...portfolioEntries,
+    {
+      url: `${BASE_URL}/insights`,
+      lastModified: new Date("2026-07-24"),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    ...insightEntries,
     {
       url: `${BASE_URL}/contact`,
       lastModified: LAST_MODIFIED,

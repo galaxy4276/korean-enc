@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { label: "회사소개", href: "/about" },
   { label: "서비스", href: "/services" },
   { label: "시공사례", href: "/portfolio" },
+  { label: "인사이트", href: "/insights" },
   { label: "문의하기", href: "/contact" },
 ];
 

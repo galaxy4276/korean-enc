@@ -84,6 +84,9 @@ interface ArticleSchemaInput {
   description: string;
   images: string[];
   section: string;
+  path?: string;
+  datePublished?: string;
+  dateModified?: string;
 }
 
 export function articleSchema({
@@ -92,20 +95,25 @@ export function articleSchema({
   description,
   images,
   section,
+  path = `/portfolio/${slug}`,
+  datePublished,
+  dateModified,
 }: ArticleSchemaInput): Record<string, unknown> {
   return {
     "@type": "Article",
-    "@id": `${SITE_URL}/portfolio/${slug}#article`,
+    "@id": `${SITE_URL}${path}#article`,
     headline,
     description,
     image: images.map(toAbsoluteImageUrl),
     articleSection: section,
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     author: {
       "@id": `${SITE_URL}/#business`,
     },
     publisher: {
       "@id": `${SITE_URL}/#business`,
     },
-    mainEntityOfPage: `${SITE_URL}/portfolio/${slug}`,
+    mainEntityOfPage: `${SITE_URL}${path}`,
   };
 }
